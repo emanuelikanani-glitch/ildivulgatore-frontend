@@ -1,6 +1,6 @@
 import Link from 'next/link';
+import { Search, Stethoscope, ChevronRight, Activity, Newspaper } from 'lucide-react';
 
-// Definiamo l'interfaccia TypeScript per gli articoli di WordPress
 interface WPPost {
   id: number;
   slug: string;
@@ -8,88 +8,191 @@ interface WPPost {
   excerpt: { rendered: string };
   date: string;
   _embedded?: {
-    'wp:featuredmedia'?: Array<{ source_url: string }>;
+    'wp:term'?: Array<Array<{ taxonomy: string, name: string }>>;
   };
 }
 
-// Funzione per recuperare gli articoli dal tuo WordPress
-async function getPosts(): Promise<WPPost[]> {
+// Funzione di fetch con supporto alla RICERCA
+async function getPosts(searchQuery: string): Promise<WPPost[]> {
   const wpUrl = process.env.NEXT_PUBLIC_WORDPRESS_API_URL;
   if (!wpUrl) throw new Error("URL di WordPress mancante nel file .env.local");
 
-  // Chiamiamo l'API di WordPress. 
-  // ?_embed ci permette di scaricare anche le immagini in evidenza e l'autore in un solo colpo
-  // status=publish assicura che mostriamo solo gli articoli ufficiali, non le bozze dell'IA!
-  const res = await fetch(`${wpUrl}/posts?_embed&status=publish`, {
-    cache: 'no-store' // <-- MODIFICA EFFETTUATA: Disattiva la cache per vedere gli articoli in tempo reale
-  });
-
-  if (!res.ok) {
-    console.error("Errore fetch WordPress");
-    return []; // Se WordPress è giù, restituiamo un array vuoto per non far crashare il sito
+  // Costruiamo l'URL. Se c'è una query, usiamo il motore di ricerca interno di WordPress
+  let fetchUrl = `${wpUrl}/posts?_embed&status=publish&per_page=100`;
+  if (searchQuery) {
+    fetchUrl += `&search=${encodeURIComponent(searchQuery)}`;
   }
+
+  const res = await fetch(fetchUrl, { cache: 'no-store' });
+  if (!res.ok) return [];
 
   return res.json();
 }
 
-export default async function Home() {
-  const posts = await getPosts();
+// Helper per estrarre la Categoria da WordPress
+function getCategory(post: WPPost): string {
+  const terms = post._embedded?.['wp:term'];
+  if (terms) {
+    const categories = terms.flat().filter(t => t.taxonomy === 'category' && t.name !== 'Senza categoria');
+    if (categories.length > 0) return categories[0].name;
+  }
+  return 'Medicina Generale';
+}
+
+// Next.js 15+ richiede che searchParams sia una Promise
+export default async function Home({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
+  const resolvedParams = await searchParams;
+  const query = resolvedParams.q || '';
+  
+  const posts = await getPosts(query);
+
+  // Raggruppiamo gli articoli per macrocategoria
+  const groupedPosts: Record<string, WPPost[]> = {};
+  posts.forEach(post => {
+    const cat = getCategory(post);
+    if (!groupedPosts[cat]) groupedPosts[cat] = [];
+    groupedPosts[cat].push(post);
+  });
+
+  // Isoliamo l'articolo in evidenza (il primo in assoluto, se non stiamo cercando)
+  const heroPost = !query && posts.length > 0 ? posts[0] : null;
+  
+  // Se abbiamo un heroPost, lo togliamo dai gruppi per non duplicarlo
+  if (heroPost) {
+    const heroCat = getCategory(heroPost);
+    groupedPosts[heroCat] = groupedPosts[heroCat].filter(p => p.id !== heroPost.id);
+    if (groupedPosts[heroCat].length === 0) delete groupedPosts[heroCat];
+  }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8 font-sans">
-      <header className="max-w-4xl mx-auto mb-12 text-center mt-10">
-        <h1 className="text-5xl font-extrabold text-blue-900 mb-4 tracking-tight">
-          Il Divulgatore
-        </h1>
-        <p className="text-xl text-gray-600 font-light">
-          Medicina basata sulle evidenze scientifiche (EBM), spiegata in modo chiaro e accessibile a tutti.
-        </p>
-      </header>
+    <main className="min-h-screen bg-[#111827] text-white selection:bg-[#AE8854] font-sans pb-20">
+      
+      {/* NAVBAR & SEARCH BAR */}
+      <nav className="max-w-6xl mx-auto px-6 pt-8 pb-6 flex flex-col md:flex-row justify-between items-center gap-6 relative z-20">
+        <div className="flex items-center gap-3">
+          <Stethoscope className="w-10 h-10 text-[#AE8854]" />
+          <div>
+            <h1 className="text-3xl font-black tracking-tighter uppercase text-white leading-none">Il Divulgatore</h1>
+            <p className="text-[#AE8854] text-[10px] font-black tracking-widest uppercase">By Il Dottorino</p>
+          </div>
+        </div>
 
-      <section className="max-w-4xl mx-auto grid gap-6 md:grid-cols-2">
+        {/* Motore di Ricerca in puro stile SSR */}
+        <form action="/" method="GET" className="w-full md:w-96 relative group">
+          <input 
+            type="text" 
+            name="q" 
+            defaultValue={query}
+            placeholder="Cerca sintomo, patologia..." 
+            className="w-full pl-12 pr-6 py-4 bg-[#1f2937] border-2 border-[#AE8854]/50 rounded-full focus:border-[#AE8854] font-bold text-white text-sm outline-none transition-all shadow-inner placeholder:text-gray-500"
+          />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#AE8854] group-focus-within:text-white transition-colors" />
+          <button type="submit" className="hidden">Cerca</button>
+        </form>
+      </nav>
+
+      <div className="max-w-6xl mx-auto px-6">
+        
+        {/* MESSAGGIO RICERCA */}
+        {query && (
+          <div className="mb-8 p-4 bg-[#1f2937] border-l-4 border-[#AE8854] rounded-r-2xl">
+            <p className="font-bold text-gray-300">
+              Risultati per: <span className="text-white">"{query}"</span> ({posts.length})
+            </p>
+            <Link href="/" className="text-[#AE8854] text-xs font-black uppercase tracking-widest mt-2 inline-block hover:underline">
+              &larr; Azzera ricerca
+            </Link>
+          </div>
+        )}
+
         {posts.length === 0 ? (
-          <div className="col-span-2 text-center py-12 bg-white rounded-xl shadow-sm border border-gray-100">
-            <p className="text-gray-500 text-lg">
-              Nessun articolo pubblicato al momento.
-            </p>
-            <p className="text-sm text-gray-400 mt-2">
-              (Ricordati di entrare in WordPress, aprire le Bozze generate dall'IA e cliccare su "Pubblica"!)
-            </p>
+          <div className="text-center py-24 bg-[#1f2937] rounded-[3rem] border-4 border-dashed border-[#AE8854]/30">
+            <Newspaper className="w-16 h-16 text-[#AE8854] mx-auto mb-4 opacity-50" />
+            <p className="text-xl font-black text-gray-400 uppercase tracking-widest">Nessun articolo trovato.</p>
           </div>
         ) : (
-          posts.map((post) => (
-            <article 
-              key={post.id} 
-              className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col"
-            >
-              <div className="p-6 flex flex-col flex-grow">
-                {/* Usiamo dangerouslySetInnerHTML perché WordPress invia i titoli con caratteri speciali codificati (es. l&#8217; per l'apostrofo) */}
-                <h2 
-                  className="text-2xl font-bold text-gray-800 mb-3 line-clamp-2 leading-tight"
-                  dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                />
-                
-                <div 
-                  className="text-gray-600 mb-6 line-clamp-3 text-sm flex-grow"
-                  dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
-                />
-                
-                <div className="flex justify-between items-center mt-auto pt-4 border-t border-gray-50">
-                  <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">
-                    {new Date(post.date).toLocaleDateString('it-IT', { day: 'numeric', month: 'long', year: 'numeric' })}
-                  </span>
-                  <Link 
-                    href={`/articolo/${post.slug}`} 
-                    className="text-blue-600 font-semibold hover:text-blue-800 transition-colors flex items-center gap-1"
-                  >
-                    Leggi tutto <span aria-hidden="true">&rarr;</span>
-                  </Link>
+          <>
+            {/* HERO SECTION (Mostrata solo se NON c'è una ricerca in corso) */}
+            {heroPost && (
+              <section className="mb-16">
+                <Link href={`/articolo/${heroPost.slug}`} className="block group">
+                  <div className="bg-gradient-to-br from-[#1f2937] to-[#111827] rounded-[3rem] p-8 md:p-14 shadow-[0_20px_40px_rgba(0,0,0,0.6)] border-[6px] border-[#AE8854] relative overflow-hidden transition-transform hover:-translate-y-1">
+                    {/* Effetto luce sfondo */}
+                    <div className="absolute -right-20 -top-20 w-96 h-96 bg-[#AE8854] opacity-10 blur-[100px] rounded-full group-hover:opacity-20 transition-opacity"></div>
+                    
+                    <div className="relative z-10 flex flex-col md:w-3/4">
+                      <div className="flex items-center gap-3 mb-6">
+                        <span className="bg-[#AE8854] text-[#111827] px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-[0_0_15px_rgba(174,136,84,0.4)]">
+                          In Evidenza
+                        </span>
+                        <span className="text-gray-400 text-xs font-bold uppercase tracking-widest">
+                           {getCategory(heroPost)}
+                        </span>
+                      </div>
+                      
+                      <h2 
+                        className="text-4xl md:text-6xl font-black text-white leading-tight tracking-tighter mb-6 group-hover:text-[#E2C293] transition-colors"
+                        dangerouslySetInnerHTML={{ __html: heroPost.title.rendered }}
+                      />
+                      
+                      <div 
+                        className="text-gray-400 text-lg md:text-xl font-medium line-clamp-3 mb-8 leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: heroPost.excerpt.rendered }}
+                      />
+                      
+                      <div className="flex items-center gap-2 text-[#AE8854] font-black uppercase tracking-widest text-sm">
+                        Leggi Report Completo <ChevronRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </section>
+            )}
+
+            {/* SEZIONI PER MACROCATEGORIA */}
+            {Object.entries(groupedPosts).map(([category, catPosts]) => (
+              <section key={category} className="mb-16">
+                <div className="flex items-center gap-4 mb-8">
+                  <Activity className="w-8 h-8 text-[#AE8854]" />
+                  <h3 className="text-3xl font-black text-white tracking-tighter uppercase">{category}</h3>
+                  <div className="flex-1 h-1 bg-gradient-to-r from-[#AE8854]/50 to-transparent ml-4 rounded-full"></div>
                 </div>
-              </div>
-            </article>
-          ))
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {catPosts.map((post) => (
+                    <Link href={`/articolo/${post.slug}`} key={post.id} className="block group h-full">
+                      <article className="bg-[#1f2937] h-full rounded-[2.5rem] p-8 border-2 border-[#374151] hover:border-[#AE8854] transition-all hover:-translate-y-1 hover:shadow-[0_15px_30px_rgba(174,136,84,0.15)] flex flex-col relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 opacity-5 blur-[50px] rounded-full group-hover:opacity-10"></div>
+                        
+                        <div className="mb-4 flex items-center justify-between text-[10px] font-black uppercase tracking-widest">
+                          <span className="text-[#AE8854]">{new Date(post.date).toLocaleDateString('it-IT', { day: '2-digit', month: 'short', year: 'numeric' })}</span>
+                        </div>
+                        
+                        <h4 
+                          className="text-xl font-black text-white leading-snug tracking-tight mb-4 group-hover:text-[#E2C293] transition-colors line-clamp-3"
+                          dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                        />
+                        
+                        <div 
+                          className="text-gray-400 text-sm line-clamp-3 mb-8 flex-grow leading-relaxed font-medium"
+                          dangerouslySetInnerHTML={{ __html: post.excerpt.rendered }}
+                        />
+                        
+                        <div className="mt-auto pt-6 border-t-2 border-[#374151] flex items-center justify-between text-[#AE8854] group-hover:text-white transition-colors">
+                          <span className="text-[10px] font-black uppercase tracking-widest">Leggi di più</span>
+                          <div className="w-8 h-8 rounded-full bg-[#111827] border-2 border-[#AE8854] flex items-center justify-center group-hover:bg-[#AE8854] transition-colors">
+                            <ChevronRight className="w-4 h-4 group-hover:text-[#111827]" />
+                          </div>
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </>
         )}
-      </section>
+      </div>
     </main>
   );
 }
