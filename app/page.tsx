@@ -69,26 +69,43 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
       
       {/* NAVBAR & SEARCH BAR */}
       <nav className="max-w-6xl mx-auto px-6 pt-8 pb-6 flex flex-col md:flex-row justify-between items-center gap-6 relative z-20">
-        <div className="flex items-center gap-3">
-          <Stethoscope className="w-10 h-10 text-[#AE8854]" />
+        
+        {/* LOGO E TITOLO */}
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-full bg-[#1f2937] border-2 border-[#AE8854] flex items-center justify-center overflow-hidden shadow-[0_0_15px_rgba(174,136,84,0.3)]">
+            <img src="/volto.png" alt="Il Dottorino Logo" className="w-12 h-12 object-contain" />
+          </div>
           <div>
-            <h1 className="text-3xl font-black tracking-tighter uppercase text-white leading-none">Il Divulgatore</h1>
-            <p className="text-[#AE8854] text-[10px] font-black tracking-widest uppercase">By Il Dottorino</p>
+            <h1 className="text-3xl md:text-4xl font-black tracking-tighter uppercase text-white leading-none">Il Divulgatore</h1>
+            <p className="text-[#AE8854] text-[10px] md:text-xs font-black tracking-widest uppercase mt-1">By Il Dottorino</p>
           </div>
         </div>
 
-        {/* Motore di Ricerca in puro stile SSR */}
-        <form action="/" method="GET" className="w-full md:w-96 relative group">
-          <input 
-            type="text" 
-            name="q" 
-            defaultValue={query}
-            placeholder="Cerca sintomo, patologia..." 
-            className="w-full pl-12 pr-6 py-4 bg-[#1f2937] border-2 border-[#AE8854]/50 rounded-full focus:border-[#AE8854] font-bold text-white text-sm outline-none transition-all shadow-inner placeholder:text-gray-500"
-          />
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#AE8854] group-focus-within:text-white transition-colors" />
-          <button type="submit" className="hidden">Cerca</button>
-        </form>
+        {/* SEARCH BAR & BUTTON ILDOTTORINO */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+          {/* Motore di Ricerca in puro stile SSR */}
+          <form action="/" method="GET" className="w-full sm:w-80 relative group">
+            <input 
+              type="text" 
+              name="q" 
+              defaultValue={query}
+              placeholder="Cerca sintomo, patologia..." 
+              className="w-full pl-12 pr-6 py-3.5 bg-[#1f2937] border-2 border-[#AE8854]/50 rounded-full focus:border-[#AE8854] font-bold text-white text-sm outline-none transition-all shadow-inner placeholder:text-gray-500"
+            />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#AE8854] group-focus-within:text-white transition-colors" />
+            <button type="submit" className="hidden">Cerca</button>
+          </form>
+
+          {/* BOTTONE VAI SU ILDOTTORINO */}
+          <a 
+            href="https://ildottorino.emanuelikanani.it" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-[#E2C293] to-[#AE8854] text-[#111827] rounded-full font-black text-[10px] uppercase tracking-widest shadow-[0_0_20px_rgba(174,136,84,0.4)] hover:brightness-110 active:scale-95 transition-all text-center flex items-center justify-center gap-2 whitespace-nowrap"
+          >
+            Vai su IlDottorino <ChevronRight className="w-4 h-4" />
+          </a>
+        </div>
       </nav>
 
       <div className="max-w-6xl mx-auto px-6">
