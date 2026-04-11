@@ -1,3 +1,5 @@
+"use client";
+
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ChevronLeft, Stethoscope, BookOpen } from 'lucide-react';
@@ -84,6 +86,29 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
             "
             dangerouslySetInnerHTML={{ __html: post.content.rendered }}
           />
+
+          {/* 🚀 IL NUOVO BOTTONE: Chiedi al Dottorino (In fondo all'articolo) */}
+          <div className="mt-16 pt-12 border-t border-[#374151] flex flex-col items-center text-center">
+            <div className="w-16 h-16 bg-[#1f2937] border-2 border-[#AE8854] rounded-full flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(174,136,84,0.2)]">
+              <Stethoscope className="w-8 h-8 text-[#AE8854]" />
+            </div>
+            
+            <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter mb-4">
+              Hai dubbi su questo argomento?
+            </h3>
+            
+            <p className="text-gray-400 font-medium mb-10 max-w-lg leading-relaxed">
+              Le informazioni mediche possono essere complesse. Clicca qui sotto per parlarne direttamente con l'Intelligenza Artificiale Medica de Il Dottorino.
+            </p>
+            
+            <Link 
+              href={`/dashboard?topic=${encodeURIComponent(post.title.rendered)}`}
+              className="group flex items-center justify-center gap-3 bg-[#AE8854] text-[#111827] px-8 py-5 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_30px_rgba(174,136,84,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:scale-105 active:scale-95 w-full md:w-auto"
+            >
+              <Stethoscope className="w-5 h-5 group-hover:animate-pulse" />
+              Chiedi al Dottorino
+            </Link>
+          </div>
           
         </div>
       </article>
