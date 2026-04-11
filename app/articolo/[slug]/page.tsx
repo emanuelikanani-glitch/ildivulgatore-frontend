@@ -92,11 +92,11 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
             </div>
             
             <h3 className="text-2xl md:text-3xl font-black text-white tracking-tighter mb-4">
-              Hai dubbi su questo argomento?
+              Vuoi capire meglio argomento?
             </h3>
             
             <p className="text-gray-400 font-medium mb-10 max-w-lg leading-relaxed">
-              Le informazioni mediche possono essere complesse. Clicca qui sotto per parlarne direttamente con l'Intelligenza Artificiale Medica de Il Dottorino.
+              Le informazioni mediche possono essere complesse. Clicca qui sotto per parlarne direttamente Il Dottorino!.
             </p>
             
             <Link 
