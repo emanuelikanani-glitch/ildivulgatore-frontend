@@ -104,7 +104,7 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
               className="group flex items-center justify-center gap-3 bg-[#AE8854] text-[#111827] px-8 py-5 rounded-full font-black uppercase tracking-widest hover:bg-white transition-all shadow-[0_0_30px_rgba(174,136,84,0.3)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] hover:scale-105 active:scale-95 w-full md:w-auto"
             >
               <Stethoscope className="w-5 h-5 group-hover:animate-pulse" />
-              Chiedi al Dottorino
+              Chiedi al Dottorino!
             </Link>
           </div>
           
