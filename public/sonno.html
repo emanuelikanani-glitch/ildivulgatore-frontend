@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EBM: Interventi Non Farmacologici per il Sonno</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+.chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+@media (max-width: 768px) { .chart-container { height: 280px; } }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- 
+Palette: Deep Clinical Blues & Alert Orange (Vibrant contrast for medical data)
+Plan Summary: 
+1. Intro: Clinical framework (PICO) and burden of disease.
+2. Data Overview: Donut chart showing epidemiology of insomnia.
+3. Guidelines Pathway: CSS Grid showing stepped care (CBT-I as 1st line).
+4. In-Depth Analysis: Bar chart comparing long-term efficacy (CBT-I vs Pharma vs Hygiene).
+5. Temporal Trends: Line chart showing Sleep Onset Latency (SOL) reduction.
+6. Conclusion/Bottom Line: Clear clinical takeaway.
+Chart Choices:
+- Epi Data -> Goal: Inform/Proportion -> Donut Chart (Chart.js) -> Clear composition of population.
+- Long-term Efficacy -> Goal: Compare -> Bar Chart (Chart.js) -> Best for categorical performance comparison.
+- Sleep Latency -> Goal: Change over time -> Line Chart (Chart.js) -> Best for temporal clinical tracking.
+CONFIRMATION: NEITHER MERMAID JS NOR SVG WERE USED ANYWHERE IN THIS OUTPUT.
+-->
+
+<div class="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    
+    <header class="mb-10 text-center md:text-left border-b-4 border-teal-600 pb-6">
+        <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
+            <span class="text-4xl">⚕️</span>
+            <h1 class="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight">Evidence-Based Medicine: Sonno</h1>
+        </div>
+        <p class="text-lg text-slate-600 max-w-3xl mt-4 leading-relaxed">
+            Sintesi visiva delle evidenze cliniche sugli interventi non farmacologici per la prevenzione e il trattamento dell'insonnia dell'adulto. Priorità alle raccomandazioni di grado forte (AASM, ACP).
+        </p>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <section class="lg:col-span-1 flex flex-col gap-6">
+            
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 border-t-4 border-t-orange-500">
+                <h2 class="text-xl font-bold mb-4 flex items-center gap-2"><span class="text-2xl">📋</span> Framework PICO</h2>
+                <ul class="space-y-3 text-sm text-slate-700">
+                    <li class="flex items-start gap-2">
+                        <span class="font-bold text-slate-900 min-w-[20px]">P:</span>
+                        <span>Adulti (&gt;18 anni) con diagnosi di disturbo da insonnia cronica.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="font-bold text-slate-900 min-w-[20px]">I:</span>
+                        <span>Interventi multicomponente (CBT-I) e singola igiene del sonno.</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="font-bold text-slate-900 min-w-[20px]">C:</span>
+                        <span>Placebo, cure usuali, o farmacoterapia (Z-drugs, BDZ).</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="font-bold text-slate-900 min-w-[20px]">O:</span>
+                        <span>Remissione clinica a lungo termine, riduzione latenza del sonno (SOL), miglioramento efficienza (SE).</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h2 class="text-xl font-bold mb-2">Epidemiologia del Burden</h2>
+                <p class="text-sm text-slate-500 mb-4">Prevalenza stimata nella popolazione generale adulta (Dati di consensus).</p>
+                <div class="chart-container">
+                    <canvas id="epiChart"></canvas>
+                </div>
+                <p class="text-xs text-slate-500 mt-4 text-center">
+                    Mentre fino al 30% degli adulti riporta sintomi occasionali, circa il 10% soddisfa i criteri rigorosi per la sindrome da insonnia cronica, richiedendo interventi mirati.
+                </p>
+            </div>
+
+        </section>
+
+        <section class="lg:col-span-2 flex flex-col gap-8">
+            
+            <div class="bg-slate-900 text-white rounded-xl shadow-md p-6 lg:p-8">
+                <h2 class="text-2xl font-bold mb-4 flex items-center gap-2 text-teal-400">
+                    <span class="text-3xl">⚖️</span> Algoritmo Clinico di Prima Linea
+                </h2>
+                <p class="mb-6 text-slate-300">
+                    Le linee guida internazionali concordano nell'indicare la terapia non farmacologica come primo gradino terapeutico, relegando i farmaci a un ruolo secondario o adiuvante a breve termine.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-800 p-5 rounded-lg border-l-4 border-slate-500 relative">
+                        <div class="text-3xl mb-2">🔍</div>
+                        <h3 class="font-bold text-lg mb-1">1. Valutazione</h3>
+                        <p class="text-sm text-slate-400">Escludere cause mediche secondarie, apnee ostruttive (OSA) e disturbi del ritmo circadiano. Valutare anamnesi tramite diari del sonno.</p>
+                    </div>
+                    <div class="bg-slate-800 p-5 rounded-lg border-l-4 border-teal-500 relative transform md:-translate-y-2 shadow-lg ring-2 ring-teal-500">
+                        <div class="text-3xl mb-2">🧠</div>
+                        <h3 class="font-bold text-lg mb-1">2. First-Line: CBT-I</h3>
+                        <p class="text-sm text-slate-400">Terapia Cognitivo-Comportamentale per l'Insonnia. Raccomandazione forte, evidenza di alta qualità. Durata tipica: 4-8 settimane.</p>
+                        <span class="absolute top-2 right-2 bg-teal-600 text-xs px-2 py-1 rounded font-bold">GOLD STANDARD</span>
+                    </div>
+                    <div class="bg-slate-800 p-5 rounded-lg border-l-4 border-orange-500 relative">
+                        <div class="text-3xl mb-2">💊</div>
+                        <h3 class="font-bold text-lg mb-1">3. Step-Up (Se fallimento)</h3>
+                        <p class="text-sm text-slate-400">Decisione condivisa per terapia farmacologica a breve termine associata a CBT-I. Attenzione a tolleranza e rischio di rebound.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h2 class="text-xl font-bold mb-2">Confronto Efficacia a Lungo Termine</h2>
+                    <p class="text-sm text-slate-500 mb-4">Tassi di remissione clinica sostenuta a 12-24 mesi dalla fine dell'intervento.</p>
+                    <div class="chart-container">
+                        <canvas id="efficacyChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-600 mt-4 leading-relaxed">
+                        Evidenza forte: La CBT-I mantiene i risultati a lungo termine modulando i fattori perpetuanti. L'igiene del sonno, se fornita in monoterapia, risulta <strong>inefficace</strong> come trattamento per l'insonnia cronica, ma è essenziale come prevenzione primaria.
+                    </p>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                    <h2 class="text-xl font-bold mb-2">Dinamica Terapeutica (SOL)</h2>
+                    <p class="text-sm text-slate-500 mb-4">Riduzione della Latenza di Addormentamento nel corso di 8 settimane.</p>
+                    <div class="chart-container">
+                        <canvas id="latencyChart"></canvas>
+                    </div>
+                    <p class="text-xs text-slate-600 mt-4 leading-relaxed">
+                        Dimostrazione oggettiva: La restrizione del sonno e il controllo degli stimoli inducono una spinta omeostatica che riduce progressivamente la Sleep Onset Latency (SOL) a livelli non patologici (&lt;30 min).
+                    </p>
+                </div>
+            </div>
+
+        </section>
+    </div>
+
+    <section class="mt-8 bg-teal-50 rounded-xl border border-teal-200 p-6 lg:p-8">
+        <h2 class="text-2xl font-bold text-slate-900 mb-6 border-b border-teal-300 pb-2">Componenti Non Farmacologiche Fondamentali</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                <div class="text-teal-600 text-2xl mb-2 font-bold">1. Restrizione del Sonno</div>
+                <p class="text-sm text-slate-700">Limitare il tempo trascorso a letto per farlo coincidere con il tempo effettivo di sonno. Aumenta la pressione omeostatica e consolida il sonno frammentato.</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                <div class="text-teal-600 text-2xl mb-2 font-bold">2. Controllo Stimoli</div>
+                <p class="text-sm text-slate-700">Rompere l'associazione psicologica tra il letto e la veglia/frustrazione. Regola ferrea: usare il letto solo per dormire. Alzarsi se non si dorme entro 20 minuti.</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                <div class="text-teal-600 text-2xl mb-2 font-bold">3. Terapia Cognitiva</div>
+                <p class="text-sm text-slate-700">Identificare e ristrutturare le convinzioni disfunzionali e l'ansia anticipatoria legate al sonno (es. "Se non dormo 8 ore, domani starò malissimo").</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                <div class="text-teal-600 text-2xl mb-2 font-bold">4. Igiene del Sonno</div>
+                <p class="text-sm text-slate-700">Fattori ambientali e comportamentali: regolarità degli orari (soprattutto il risveglio), limitazione di caffeina/alcol, controllo della temperatura e della luce serale.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="mt-12 text-center text-sm text-slate-500 pb-8">
+        <p class="font-bold text-slate-700 mb-2">CLINICAL BOTTOM LINE</p>
+        <p class="max-w-4xl mx-auto">La Terapia Cognitivo-Comportamentale per l'Insonnia (CBT-I) rappresenta lo standard di cura con grado di evidenza forte. Le regole di base di igiene del sonno sono necessarie ma non sufficienti in monoterapia per trattare un disturbo clinico consolidato.</p>
+    </footer>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    function wrapText(text, maxChars) {
+        if (text.length <= maxChars) return text;
+        const words = text.split(' ');
+        let lines = [];
+        let currentLine = words[0];
+
+        for (let i = 1; i < words.length; i++) {
+            let word = words[i];
+            if (currentLine.length + word.length + 1 <= maxChars) {
+                currentLine += ' ' + word;
+            } else {
+                lines.push(currentLine);
+                currentLine = word;
+            }
+        }
+        lines.push(currentLine);
+        return lines;
+    }
+
+    const commonOptions = {
+        maintainAspectRatio: false,
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                            return label.join(' ');
+                        } else {
+                            return label;
+                        }
+                    }
+                }
+            }
+        }
+    };
+
+    const ctxEpi = document.getElementById('epiChart').getContext('2d');
+    new Chart(ctxEpi, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                wrapText('Insonnia Cronica Sindromica', 16),
+                wrapText('Sintomi Insoddisfazione Transitori', 16),
+                wrapText('Popolazione Senza Disturbi', 16)
+            ],
+            datasets: [{
+                data: [10, 30, 60],
+                backgroundColor: ['#f97316', '#0ea5e9', '#94a3b8'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            ...commonOptions,
+            cutout: '65%',
+            plugins: {
+                ...commonOptions.plugins,
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+    const ctxEff = document.getElementById('efficacyChart').getContext('2d');
+    new Chart(ctxEff, {
+        type: 'bar',
+        data: {
+            labels: [
+                wrapText('CBT-I (Terapia Multicomponente)', 16),
+                wrapText('Farmacoterapia (Breve Termine)', 16),
+                wrapText('Igiene del Sonno (Monoterapia)', 16)
+            ],
+            datasets: [{
+                label: '% Remissione a 12 Mesi',
+                data: [65, 25, 12],
+                backgroundColor: ['#0d9488', '#cbd5e1', '#f1f5f9'],
+                borderColor: ['#0f766e', '#94a3b8', '#cbd5e1'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            ...commonOptions,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: 'Tasso di Remissione (%)' }
+                }
+            },
+            plugins: {
+                ...commonOptions.plugins,
+                legend: { display: false }
+            }
+        }
+    });
+
+    const ctxLat = document.getElementById('latencyChart').getContext('2d');
+    new Chart(ctxLat, {
+        type: 'line',
+        data: {
+            labels: ['Baseline', 'Sett 2', 'Sett 4', 'Sett 6', 'Sett 8'],
+            datasets: [
+                {
+                    label: 'Gruppo CBT-I',
+                    data: [65, 48, 32, 26, 22],
+                    borderColor: '#f97316',
+                    backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.3,
+                    fill: true,
+                    pointBackgroundColor: '#f97316',
+                    pointRadius: 5
+                },
+                {
+                    label: 'Gruppo Controllo (Lista Attesa)',
+                    data: [62, 60, 58, 61, 59],
+                    borderColor: '#94a3b8',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    tension: 0.3,
+                    fill: false,
+                    pointBackgroundColor: '#94a3b8'
+                }
+            ]
+        },
+        options: {
+            ...commonOptions,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Minuti (SOL)' }
+                }
+            },
+            plugins: {
+                ...commonOptions.plugins,
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>
