@@ -80,27 +80,26 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
             className="
               text-lg w-full text-gray-300
               
-              /* 🎨 FORZATURA COLORI: Impediamo al nero di Word di vincere */
-              [&_*]:!text-gray-300 [&_strong]:!text-white [&_b]:!text-white
-              [&_h2]:!text-[#AE8854] [&_h3]:!text-white [&_a]:!text-[#E2C293]
+              /* 🎨 COLORI: Forza i testi chiari ignorando i vecchi stili neri */
+              [&_p]:text-gray-300 [&_strong]:text-white [&_b]:text-white
+              [&_h2]:text-[#AE8854] [&_h3]:text-white [&_a]:text-[#E2C293]
               
-              /* 📐 FORZATURA LARGHEZZA: Disintegriamo i margini laterali */
-              [&_p]:!w-full [&_p]:!max-w-none [&_p]:!mx-0 [&_p]:!px-0
-              [&_div]:!w-full [&_div]:!max-w-none [&_div]:!mx-0 [&_div]:!px-0
-              [&_table]:!w-full [&_table]:!max-w-none [&_table]:!mx-0
+              /* 📐 LARGHEZZA FLUIDA: Solo i blocchi principali (p, div, table) si allargano, 
+                 senza spaccare i tag interni (come i grassetti o i link) */
+              [&_p]:w-full [&_p]:max-w-none
+              [&_div]:w-full [&_div]:max-w-none
+              [&_table]:w-full [&_table]:max-w-none
               
-              /* Spaziature verticali per la leggibilità */
-              [&_p]:leading-relaxed [&_p]:mb-6 [&_p]:font-medium
+              /* Struttura e Spaziature Verticali (Manteniamo i veri paragrafi) */
+              [&_p]:leading-relaxed [&_p]:mb-6
               [&_h2]:text-3xl [&_h2]:font-black [&_h2]:mt-14 [&_h2]:mb-6 [&_h2]:tracking-tighter
               [&_h3]:text-2xl [&_h3]:font-black [&_h3]:mt-10 [&_h3]:mb-4
               
-              /* Liste */
+              /* Liste e Media */
               [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-8 [&_ul]:space-y-3 [&_ul]:marker:text-[#AE8854]
               [&_li]:leading-relaxed
-              
-              /* Link e Media */
-              [&_a]:font-bold [&_a]:underline [&_a]:decoration-[#AE8854] hover:[&_a]:!text-white transition-colors
-              [&_img]:!max-w-full [&_img]:!h-auto [&_img]:mx-auto [&_img]:rounded-xl
+              [&_a]:font-bold [&_a]:underline [&_a]:decoration-[#AE8854] hover:[&_a]:text-white transition-colors
+              [&_img]:max-w-full [&_img]:h-auto [&_img]:mx-auto [&_img]:rounded-xl
               [&_hr]:my-14 [&_hr]:border-t-4 [&_hr]:border-dashed [&_hr]:border-[#374151]
             "
             dangerouslySetInnerHTML={{ __html: cleanContent }}
