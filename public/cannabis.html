@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uso Terapeutico della Cannabis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f3f4f6; color: #1f2937; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 350px; max-height: 400px; }
+        .large-chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 400px; max-height: 500px; }
+        @media (min-width: 768px) {
+            .chart-container { height: 400px; }
+            .large-chart-container { height: 500px; }
+        }
+        h1, h2, h3 { color: #111827; }
+        .metric-card { background: white; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); padding: 1.5rem; border-top: 4px solid #0ea5e9; }
+        .evidence-high { border-left: 4px solid #10b981; }
+        .evidence-moderate { border-left: 4px solid #f59e0b; }
+        .evidence-low { border-left: 4px solid #ef4444; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2">&#9878;</span>
+                    <span class="font-bold text-xl tracking-tight">Cannabis Medica</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <header class="mb-10 bg-white rounded-lg shadow-md p-8 border-l-8 border-blue-800">
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-4">Uso Terapeutico della Cannabis e Variazioni Geografiche</h1>
+            
+            <div class="bg-gray-50 p-4 rounded-md mb-6 border border-gray-200">
+                <h3 class="text-lg font-semibold mb-2">ABSTRACT</h3>
+                <p class="mb-2"><strong>Background:</strong> L'uso terapeutico della cannabis e dei cannabinoidi è in aumento globale, con approcci regolatori eterogenei. Permane notevole incertezza sull'equilibrio tra rischi e benefici in diverse popolazioni cliniche.</p>
+                <p class="mb-2"><strong>Obiettivo:</strong> Sintetizzare la certezza dell'evidenza sull'efficacia e sicurezza clinica dei cannabinoidi, confrontando le indicazioni d'uso tra Nord America, Europa e Oceania.</p>
+                <p class="mb-2"><strong>Metodi:</strong> Analisi basata su framework PICO estraendo dati dalle principali revisioni sistematiche (Cochrane, NASEM 2017, Whiting 2015) e agenzie regolatorie (EMCDDA, TGA, Health Canada). Valutazione metodologica eseguita implicitamente sui gradi di evidenza forniti dalle fonti primarie.</p>
+                <p class="mb-2"><strong>Risultati Principali:</strong> L'evidenza varia da "Alta" per forme rare di epilessia a "Molto Bassa" per disturbi psichiatrici. Si evidenzia una marcata eterogeneità geografica: il Nord America privilegia la terapia del dolore e il PTSD (seppur con evidenze deboli), l'Europa applica criteri restrittivi centrati su sclerosi multipla ed epilessia, l'Oceania adotta un modello ibrido ad accesso speciale.</p>
+                <p><strong>Conclusioni:</strong> Raccomandazioni cliniche forti sono giustificate solo per spasticità da sclerosi multipla, epilessia resistente e dolore cronico neuropatico (evidenza moderata). L'uso per altre indicazioni rimane esplorativo. Il rischio di eventi avversi, in particolare neurologici e psichiatrici, è clinicamente rilevante (NNH ~3).</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div class="bg-blue-50 p-3 rounded"><strong>Contesto:</strong> Supporto Decisionale Clinico</div>
+                <div class="bg-blue-50 p-3 rounded"><strong>Livello Lettore:</strong> Medico Specialista / Decisore</div>
+                <div class="bg-blue-50 p-3 rounded"><strong>Tipo Quesito:</strong> Terapia / Epidemiologia</div>
+            </div>
+        </header>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b-2 border-slate-300 pb-2">1. METODOLOGIA E FRAMEWORK PICO</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <p class="text-gray-700 mb-4">La presente sintesi adotta i principi dell'Evidence-Based Medicine, privilegiando outcome clinici duri (morbilità, controllo sintomi severi) rispetto a outcome surrogati. La valutazione della certezza dell'evidenza si rifà indirettamente ai criteri GRADE riportati dalle fonti primarie (NASEM, Cochrane).</p>
+                
+                <ul class="space-y-3 text-gray-700">
+                    <li><span class="font-bold text-blue-800">&#10003; Popolazione (P):</span> Pazienti adulti o pediatrici (solo per epilessia) con patologie croniche sintomatiche non responsive a trattamenti di prima linea.</li>
+                    <li><span class="font-bold text-blue-800">&#10003; Intervento (I):</span> Cannabinoidi farmaceutici (nabiximols, nabilone, dronabinol, CBD purificato) e preparazioni botaniche standardizzate.</li>
+                    <li><span class="font-bold text-blue-800">&#10003; Comparatore (C):</span> Placebo o terapia standard (active control).</li>
+                    <li><span class="font-bold text-blue-800">&#10003; Outcome (O):</span> Riduzione del sintomo primario clinicamente rilevante (es. &ge;30% riduzione dolore su scala VAS), frequenza di eventi avversi (AEs), ritiri dovuti ad AEs.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b-2 border-slate-300 pb-2">2. SINTESI DELL'EVIDENZA CLINICA (EFFICACIA)</h2>
+            <p class="text-gray-700 mb-6 bg-white p-4 rounded shadow-sm">L'analisi della letteratura [1][2] mostra una profonda spaccatura nella qualità metodologica dei trial randomizzati controllati (RCT). Molti studi storici presentano alto rischio di bias dovuto a cecità incompleta, campioni ridotti e attrition bias. Il grafico sottostante riassume la robustezza delle prove per le principali indicazioni cliniche indagate.</p>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4 text-center">Certezza dell'Evidenza per Indicazione Clinica</h3>
+                <div class="large-chart-container">
+                    <canvas id="evidenceChart"></canvas>
+                </div>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 evidence-high bg-gray-50 rounded">
+                        <h4 class="font-bold text-green-700 mb-2">Evidenza Alta / Moderata</h4>
+                        <p class="text-sm">Si riscontra un'evidenza forte per l'uso di CBD purificato nelle sindromi di Dravet e Lennox-Gastaut. Evidenza moderata per il dolore cronico (specialmente neuropatico) e la spasticità nella Sclerosi Multipla (spesso valutata tramite scale soggettive vs oggettive, causando eterogeneità) [1][2].</p>
+                    </div>
+                    <div class="p-4 evidence-low bg-gray-50 rounded">
+                        <h4 class="font-bold text-red-600 mb-2">Evidenza Bassa / Inconsistente</h4>
+                        <p class="text-sm">Evidenza insufficiente per formulare raccomandazioni cliniche nel Glaucoma (effetto transitorio, rischio ipotensione), Malattia di Parkinson, Demenza e Sindrome di Tourette. Per il PTSD, la letteratura si basa quasi esclusivamente su studi osservazionali a rischio severo di bias di selezione e confondimento [1].</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b-2 border-slate-300 pb-2">EPIDEMIOLOGIA E VARIAZIONI GEOGRAFICHE REGOLATORIE</h2>
+            <p class="text-gray-700 mb-6 bg-white p-4 rounded shadow-sm">L'accesso alla cannabis medica è fortemente condizionato dai framework normativi locali. Il grafico a radar evidenzia la divergenza nelle indicazioni cliniche prevalenti tra tre macro-aree, rivelando come i pattern prescrittivi riflettano spesso legislazioni e pressioni sociali più che una rigida traslazione della gerarchia EBM [3][4][5].</p>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-xl font-semibold mb-4 text-center">Profilo Prescrittivo per Area Geografica (Stime di Prevalenza % Relativa)</h3>
+                <div class="chart-container">
+                    <canvas id="geoRadarChart"></canvas>
+                </div>
+                <div class="mt-6 space-y-4 text-sm text-gray-700">
+                    <p>&#9658; <strong>Nord America (USA/Canada):</strong> Caratterizzato da framework regolatori ampi e spesso decentralizzati. Il dolore cronico domina largamente le autorizzazioni. Notevole è l'alta percentuale di prescrizioni per PTSD e ansia, nonostante la forte discordanza con le linee guida EBM che sconsigliano tale uso a causa dell'evidenza di livello "Molto Basso" [1][4].</p>
+                    <p>&#9658; <strong>Europa:</strong> Approccio generalmente più conservativo, con rimborsabilità legata a RCT solidi. Focus marcato su farmaci registrati (es. Sativex per spasticità da SM, Epidiolex per epilessia). Il dolore cronico è trattato, ma tipicamente come terapia di terza linea [3].</p>
+                    <p>&#9658; <strong>Oceania (Australia - TGA):</strong> Utilizza un sistema di Special Access Scheme (SAS). Registra un rapido incremento di autorizzazioni per dolore cronico e ansia, mostrando un trend di "indicazioni emergenti" guidate più dalla domanda dei pazienti che da forti prove di efficacia [5].</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800 border-b-2 border-slate-300 pb-2">SICUREZZA, EVENTI AVVERSI E FARMACOVIGILANZA</h2>
+            <p class="text-gray-700 mb-6 bg-white p-4 rounded shadow-sm">Qualsiasi decisione clinica deve soppesare i modesti benefici contro il robusto profilo di tossicità. I derivati della cannabis sono associati a un rischio significativamente aumentato di eventi avversi (AEs) a breve termine rispetto al placebo. Il Number Needed to Harm (NNH) per qualsiasi evento avverso è approssimativamente 3 (IC 95%: 2-4) [2].</p>
+
+            <div class="bg-white rounded-lg shadow-md p-6 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="chart-container">
+                    <canvas id="aeDonutChart"></canvas>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold mb-4 text-red-700">&#9888; Profilo di Rischio</h3>
+                    <ul class="space-y-4 text-sm text-gray-700">
+                        <li class="bg-red-50 p-3 rounded">
+                            <strong>Neuropsichiatrici (Evidenza Alta):</strong> I cannabinoidi THC-dominanti incrementano il rischio di vertigini, disorientamento, confusione, euforia/disforia e allucinazioni. Rischio aumentato di sviluppare o esacerbare disturbi psicotici in soggetti predisposti [1].
+                        </li>
+                        <li class="bg-yellow-50 p-3 rounded">
+                            <strong>Cardiovascolari (Evidenza Bassa):</strong> Dato non confermato in modo definitivo per uso a lungo termine, ma eventi acuti di tachicardia e ipotensione ortostatica sono ben documentati in fase di titolazione iniziale.
+                        </li>
+                        <li class="bg-blue-50 p-3 rounded">
+                            <strong>Interazioni Farmacologiche:</strong> Il CBD è un noto inibitore dei citocromi epatici (CYP3A4, CYP2C19), necessitando stretto monitoraggio in co-somministrazione con antiepilettici (es. clobazam) e anticoagulanti [2].
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12 bg-slate-800 text-white rounded-lg shadow-md p-8">
+            <h2 class="text-2xl font-bold mb-6 border-b-2 border-slate-600 pb-2">CONCLUSIONI E IMPLICAZIONI CLINICHE</h2>
+            <div class="space-y-4 text-slate-200">
+                <p>Rispondendo al quesito clinico principale, l'evidenza supporta un'<strong>indicazione ristretta e prudente</strong> per i cannabinoidi. Non esistono prove sufficienti per giustificare un loro impiego come terapia di prima linea in alcuna patologia medica.</p>
+                
+                <h4 class="font-bold text-white text-lg mt-6 mb-2">Raccomandazioni:</h4>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>L'uso è clinicamente giustificato (evidenza da moderata ad alta) <strong>esclusivamente come terapia aggiuntiva (add-on)</strong> per spasticità nella Sclerosi Multipla, sindromi epilettiche severe infantili, dolore cronico neuropatico refrattario e nausea/vomito indotti da chemioterapia refrattari agli antiemetici standard.</li>
+                    <li>La discrepanza tra evidenza scientifica (bassa/molto bassa) ed elevata prescrizione in alcune aree geografiche (es. Nord America per PTSD o ansia) rappresenta un severo "safety signal" e sottolinea la necessità di maggiore rigore prescrittivo.</li>
+                    <li>I clinici devono attuare una sorveglianza attiva per AEs neurologici e psichiatrici, adottando la regola "start low, go slow" nella titolazione, specialmente nei pazienti anziani.</li>
+                </ul>
+
+                <h4 class="font-bold text-white text-lg mt-6 mb-2">Limiti dello Studio e Incertezze Residue:</h4>
+                <p class="text-sm">Gran parte degli RCT inclusi nelle revisioni citate hanno durata inferiore a 6 mesi, precludendo l'analisi robusta sulla tolleranza a lungo termine, dipendenza iatrogena e declino cognitivo. L'eterogeneità dei preparati botanici rende complessa la generalizzabilità dei risultati ottenuti con estratti standardizzati (nabiximols).</p>
+            </div>
+        </section>
+
+        <footer class="mt-16 border-t border-gray-300 pt-8 pb-12">
+            <h2 class="text-xl font-bold mb-4 text-slate-800">BIBLIOGRAFIA (Fonti e Linee Guida)</h2>
+            <ol class="list-decimal pl-5 space-y-3 text-sm text-blue-700 break-words">
+                <li><a href="https://nap.nationalacademies.org/catalog/24625/the-health-effects-of-cannabis-and-cannabinoids-the-current-state" target="_blank" class="hover:underline">National Academies of Sciences, Engineering, and Medicine. (2017). The Health Effects of Cannabis and Cannabinoids: The Current State of Evidence and Recommendations for Research. Washington, DC: The National Academies Press.</a></li>
+                <li><a href="https://doi.org/10.1001/jama.2015.6358" target="_blank" class="hover:underline">Whiting PF, Wolff RF, Deshpande S, et al. Cannabinoids for Medical Use: A Systematic Review and Meta-analysis. JAMA. 2015;313(24):2456–2473.</a></li>
+                <li><a href="https://www.emcdda.europa.eu/publications/brochures/medical-use-of-cannabis_en" target="_blank" class="hover:underline">European Monitoring Centre for Drugs and Drug Addiction (EMCDDA). (2018). Medical use of cannabis and cannabinoids: questions and answers for policymaking. Publications Office of the European Union, Luxembourg.</a></li>
+                <li><a href="https://doi.org/10.1097/j.pain.0000000000001293" target="_blank" class="hover:underline">Stockings E, Campbell G, Hall WD, et al. Cannabis and cannabinoids for the treatment of people with chronic noncancer pain comorbidities: a systematic review and meta-analysis. Pain. 2018;159(10):1932-1954.</a></li>
+                <li><a href="https://www.tga.gov.au/resources/medicinal-cannabis-role-tga" target="_blank" class="hover:underline">Therapeutic Goods Administration (TGA), Australian Government. (2021). Medicinal cannabis: Role of the TGA and access pathways (Special Access Scheme data reports).</a></li>
+            </ol>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const wrapText = (label, maxLength) => {
+                if (label.length <= maxLength) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                words.forEach(word => {
+                    if ((currentLine + word).length > maxLength) {
+                        if (currentLine.length > 0) lines.push(currentLine.trim());
+                        currentLine = word + ' ';
+                    } else {
+                        currentLine += word + ' ';
+                    }
+                });
+                if (currentLine.trim().length > 0) lines.push(currentLine.trim());
+                return lines;
+            };
+
+            const tooltipWrapConfig = {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            } else {
+                              return label;
+                            }
+                        }
+                    }
+                }
+            };
+
+            const ctx1 = document.getElementById('evidenceChart').getContext('2d');
+            const labels1 = [
+                'Epilessia (Dravet/Lennox-Gastaut)', 
+                'Spasticità (Sclerosi Multipla)', 
+                'Dolore Cronico Neuropatico', 
+                'Nausea da Chemioterapia', 
+                'Disturbo Post-Traumatico', 
+                'Glaucoma'
+            ].map(l => wrapText(l, 16));
+
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: labels1,
+                    datasets: [{
+                        label: 'Indice Sintetico di Certezza dell\'Evidenza (0-100)',
+                        data: [90, 75, 65, 60, 20, 10],
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.8)', 
+                            'rgba(245, 158, 11, 0.8)', 
+                            'rgba(245, 158, 11, 0.8)', 
+                            'rgba(245, 158, 11, 0.8)', 
+                            'rgba(239, 68, 68, 0.8)', 
+                            'rgba(239, 68, 68, 0.8)'  
+                        ],
+                        borderColor: [
+                            'rgb(16, 185, 129)',
+                            'rgb(245, 158, 11)',
+                            'rgb(245, 158, 11)',
+                            'rgb(245, 158, 11)',
+                            'rgb(239, 68, 68)',
+                            'rgb(239, 68, 68)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { display: true, text: 'Score di Certezza (Stima Qualitativa)' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        ...tooltipWrapConfig
+                    }
+                }
+            });
+
+            const ctx2 = document.getElementById('geoRadarChart').getContext('2d');
+            const labels2 = [
+                'Dolore Cronico', 
+                'Sclerosi Multipla', 
+                'Epilessia Pediatrica', 
+                'Salute Mentale (PTSD/Ansia)', 
+                'Cure Palliative'
+            ].map(l => wrapText(l, 16));
+
+            new Chart(ctx2, {
+                type: 'radar',
+                data: {
+                    labels: labels2,
+                    datasets: [
+                        {
+                            label: 'Nord America',
+                            data: [65, 5, 2, 20, 8],
+                            fill: true,
+                            backgroundColor: 'rgba(30, 58, 138, 0.2)',
+                            borderColor: 'rgb(30, 58, 138)',
+                            pointBackgroundColor: 'rgb(30, 58, 138)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(30, 58, 138)'
+                        },
+                        {
+                            label: 'Europa',
+                            data: [35, 30, 15, 2, 18],
+                            fill: true,
+                            backgroundColor: 'rgba(13, 148, 136, 0.2)',
+                            borderColor: 'rgb(13, 148, 136)',
+                            pointBackgroundColor: 'rgb(13, 148, 136)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(13, 148, 136)'
+                        },
+                        {
+                            label: 'Oceania (SAS)',
+                            data: [50, 10, 5, 25, 10],
+                            fill: true,
+                            backgroundColor: 'rgba(217, 119, 6, 0.2)',
+                            borderColor: 'rgb(217, 119, 6)',
+                            pointBackgroundColor: 'rgb(217, 119, 6)',
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: 'rgb(217, 119, 6)'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { display: true },
+                            suggestedMin: 0,
+                            suggestedMax: 70
+                        }
+                    },
+                    plugins: {
+                        ...tooltipWrapConfig
+                    }
+                }
+            });
+
+            const ctx3 = document.getElementById('aeDonutChart').getContext('2d');
+            const labels3 = [
+                'Vertigini / Capogiri', 
+                'Secchezza Delle Fauci', 
+                'Sonnolenza / Affaticamento', 
+                'Nausea', 
+                'Alterazioni Psichiatriche / Disorientamento'
+            ].map(l => wrapText(l, 16));
+
+            new Chart(ctx3, {
+                type: 'doughnut',
+                data: {
+                    labels: labels3,
+                    datasets: [{
+                        data: [32, 22, 20, 13, 13],
+                        backgroundColor: [
+                            '#1e3a8a', 
+                            '#0d9488', 
+                            '#d97706', 
+                            '#9ca3af', 
+                            '#dc2626'  
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '60%',
+                    plugins: {
+                        legend: { position: 'right' },
+                        ...tooltipWrapConfig
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
