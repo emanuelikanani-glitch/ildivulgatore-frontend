@@ -33,13 +33,23 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
-  // 🚀 FIX: IL PURIFICATORE DI CODICE
-  // Spazziamo via i margini e le larghezze fisse portate dal "Copia-Incolla" nell'editor
+  // 🚀 FIX: IL PURIFICATORE NUCLEARE (Ripulisti totale di stili e classi)
   let cleanContent = post.content.rendered;
-  cleanContent = cleanContent.replace(/width\s*:\s*[^;"]+;?/gi, ''); // Rimuove width CSS
-  cleanContent = cleanContent.replace(/max-width\s*:\s*[^;"]+;?/gi, ''); // Rimuove max-width CSS
-  cleanContent = cleanContent.replace(/margin[^:]*:\s*[^;"]+;?/gi, ''); // Rimuove tutti i tipi di margin CSS
-  cleanContent = cleanContent.replace(/width="\d+"/gi, ''); // Rimuove attributi width diretti
+
+  // 1. Elimina TUTTI gli attributi style="..." (Uccide margini, larghezze e colori neri)
+  cleanContent = cleanContent.replace(/\s+style=(['"])(?:(?!\1).)*\1/gi, '');
+
+  // 2. Elimina TUTTI gli attributi class="..." (Uccide le gabbie di WordPress/Word)
+  cleanContent = cleanContent.replace(/\s+class=(['"])(?:(?!\1).)*\1/gi, '');
+
+  // 3. Elimina attributi HTML obsoleti (width, height, align)
+  cleanContent = cleanContent.replace(/\s+(width|height|align|border|valign)=(['"])[^'"]*\2/gi, '');
+
+  // 4. Rimuove i tag <span> ma tiene il testo (Word li usa per bloccare i margini riga per riga)
+  cleanContent = cleanContent.replace(/<span[^>]*>(.*?)<\/span>/gi, '$1');
+
+  // 5. Rimuove i tag <font>
+  cleanContent = cleanContent.replace(/<\/?font[^>]*>/gi, '');
 
   return (
     <main className="min-h-screen bg-[#111827] text-white selection:bg-[#AE8854] font-sans pb-24">
@@ -77,24 +87,27 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
             />
           </header>
 
-          {/* Stili CSS iniettati per formattare il testo di WordPress con i colori de Il Dottorino */}
           <div 
             className="
-              text-lg w-full
-              /* 🚀 FIX: Disintegriamo le larghezze fisse fantasma di WordPress */
-              [&_div]:!w-full [&_div]:!max-w-none 
-              [&_p]:!w-full [&_p]:!max-w-none 
-              [&_figure]:!w-full [&_figure]:!max-w-none
-              [&_img]:!max-w-full [&_img]:!h-auto
+              text-lg w-full text-gray-300
+              /* Forza tutti i figli a occupare il 100% senza margini parassiti */
+              [&_*]:!max-w-none [&_*]:!w-full [&_*]:!margin-0
               
-              /* Stili Tipografici */
-              [&_h2]:text-3xl [&_h2]:font-black [&_h2]:text-[#AE8854] [&_h2]:mt-14 [&_h2]:mb-6 [&_h2]:tracking-tighter [&_h2]:!w-full [&_h2]:!max-w-none
-              [&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-white [&_h3]:mt-10 [&_h3]:mb-4 [&_h3]:!w-full [&_h3]:!max-w-none
-              [&_p]:text-gray-300 [&_p]:leading-relaxed [&_p]:mb-6 [&_p]:font-medium
+              /* Titoli */
+              [&_h2]:text-3xl [&_h2]:font-black [&_h2]:text-[#AE8854] [&_h2]:mt-14 [&_h2]:mb-6 [&_h2]:tracking-tighter
+              [&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-white [&_h3]:mt-10 [&_h3]:mb-4
+              
+              /* Paragrafi e Testo */
+              [&_p]:text-gray-300 [&_p]:leading-relaxed [&_p]:mb-6 [&_p]:font-medium [&_p]:!w-full
               [&_strong]:font-black [&_strong]:text-white
-              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:text-gray-300 [&_ul]:mb-8 [&_ul]:space-y-3 [&_ul]:marker:text-[#AE8854]
+              
+              /* Liste (Manteniamo il padding solo qui per i pallini) */
+              [&_ul]:list-disc [&_ul]:!w-[auto] [&_ul]:pl-6 [&_ul]:text-gray-300 [&_ul]:mb-8 [&_ul]:space-y-3 [&_ul]:marker:text-[#AE8854]
               [&_li]:leading-relaxed
+              
+              /* Link e Media */
               [&_a]:text-[#E2C293] [&_a]:font-bold [&_a]:underline [&_a]:decoration-[#AE8854] hover:[&_a]:text-white transition-colors
+              [&_img]:!max-w-full [&_img]:!h-auto [&_img]:mx-auto [&_img]:rounded-xl
               [&_hr]:my-14 [&_hr]:border-t-4 [&_hr]:border-dashed [&_hr]:border-[#374151]
             "
             dangerouslySetInnerHTML={{ __html: cleanContent }}
