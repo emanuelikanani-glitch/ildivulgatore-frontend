@@ -33,6 +33,14 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
+  // 🚀 FIX: IL PURIFICATORE DI CODICE
+  // Spazziamo via i margini e le larghezze fisse portate dal "Copia-Incolla" nell'editor
+  let cleanContent = post.content.rendered;
+  cleanContent = cleanContent.replace(/width\s*:\s*[^;"]+;?/gi, ''); // Rimuove width CSS
+  cleanContent = cleanContent.replace(/max-width\s*:\s*[^;"]+;?/gi, ''); // Rimuove max-width CSS
+  cleanContent = cleanContent.replace(/margin[^:]*:\s*[^;"]+;?/gi, ''); // Rimuove tutti i tipi di margin CSS
+  cleanContent = cleanContent.replace(/width="\d+"/gi, ''); // Rimuove attributi width diretti
+
   return (
     <main className="min-h-screen bg-[#111827] text-white selection:bg-[#AE8854] font-sans pb-24">
       
@@ -89,7 +97,7 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
               [&_a]:text-[#E2C293] [&_a]:font-bold [&_a]:underline [&_a]:decoration-[#AE8854] hover:[&_a]:text-white transition-colors
               [&_hr]:my-14 [&_hr]:border-t-4 [&_hr]:border-dashed [&_hr]:border-[#374151]
             "
-            dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+            dangerouslySetInnerHTML={{ __html: cleanContent }}
           />
 
           {/* 🚀 IL NUOVO BOTTONE: Chiedi al Dottorino (In fondo all'articolo) */}
