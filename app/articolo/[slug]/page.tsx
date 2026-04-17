@@ -72,9 +72,16 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
           {/* Stili CSS iniettati per formattare il testo di WordPress con i colori de Il Dottorino */}
           <div 
             className="
-              text-lg
-              [&_h2]:text-3xl [&_h2]:font-black [&_h2]:text-[#AE8854] [&_h2]:mt-14 [&_h2]:mb-6 [&_h2]:tracking-tighter
-              [&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-white [&_h3]:mt-10 [&_h3]:mb-4
+              text-lg w-full
+              /* 🚀 FIX: Disintegriamo le larghezze fisse fantasma di WordPress */
+              [&_div]:!w-full [&_div]:!max-w-none 
+              [&_p]:!w-full [&_p]:!max-w-none 
+              [&_figure]:!w-full [&_figure]:!max-w-none
+              [&_img]:!max-w-full [&_img]:!h-auto
+              
+              /* Stili Tipografici */
+              [&_h2]:text-3xl [&_h2]:font-black [&_h2]:text-[#AE8854] [&_h2]:mt-14 [&_h2]:mb-6 [&_h2]:tracking-tighter [&_h2]:!w-full [&_h2]:!max-w-none
+              [&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-white [&_h3]:mt-10 [&_h3]:mb-4 [&_h3]:!w-full [&_h3]:!max-w-none
               [&_p]:text-gray-300 [&_p]:leading-relaxed [&_p]:mb-6 [&_p]:font-medium
               [&_strong]:font-black [&_strong]:text-white
               [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:text-gray-300 [&_ul]:mb-8 [&_ul]:space-y-3 [&_ul]:marker:text-[#AE8854]
