@@ -33,22 +33,11 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
     notFound();
   }
 
-  // 🚀 FIX: IL PURIFICATORE NUCLEARE (Ripulisti totale di stili e classi)
+  
+  // 🚀 RIPULITURA LEGGERA: Mantiene i tag intatti, elimina solo blocchi di colore e margini
   let cleanContent = post.content.rendered;
 
-  // 1. Elimina TUTTI gli attributi style="..." (Uccide margini, larghezze e colori neri)
-  cleanContent = cleanContent.replace(/\s+style=(['"])(?:(?!\1).)*\1/gi, '');
-
-  // 2. Elimina TUTTI gli attributi class="..." (Uccide le gabbie di WordPress/Word)
-  cleanContent = cleanContent.replace(/\s+class=(['"])(?:(?!\1).)*\1/gi, '');
-
-  // 3. Elimina attributi HTML obsoleti (width, height, align)
-  cleanContent = cleanContent.replace(/\s+(width|height|align|border|valign)=(['"])[^'"]*\2/gi, '');
-
-  // 4. Rimuove i tag <span> ma tiene il testo (Word li usa per bloccare i margini riga per riga)
-  cleanContent = cleanContent.replace(/<span[^>]*>(.*?)<\/span>/gi, '$1');
-
-  // 5. Rimuove i tag <font>
+  // Elimina vecchi tag <font> che forzano il colore nero
   cleanContent = cleanContent.replace(/<\/?font[^>]*>/gi, '');
 
   return (
@@ -90,23 +79,27 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
           <div 
             className="
               text-lg w-full text-gray-300
-              /* Forza tutti i figli a occupare il 100% senza margini parassiti */
-              [&_*]:!max-w-none [&_*]:!w-full [&_*]:!margin-0
               
-              /* Titoli */
-              [&_h2]:text-3xl [&_h2]:font-black [&_h2]:text-[#AE8854] [&_h2]:mt-14 [&_h2]:mb-6 [&_h2]:tracking-tighter
-              [&_h3]:text-2xl [&_h3]:font-black [&_h3]:text-white [&_h3]:mt-10 [&_h3]:mb-4
+              /* 🎨 FORZATURA COLORI: Impediamo al nero di Word di vincere */
+              [&_*]:!text-gray-300 [&_strong]:!text-white [&_b]:!text-white
+              [&_h2]:!text-[#AE8854] [&_h3]:!text-white [&_a]:!text-[#E2C293]
               
-              /* Paragrafi e Testo */
-              [&_p]:text-gray-300 [&_p]:leading-relaxed [&_p]:mb-6 [&_p]:font-medium [&_p]:!w-full
-              [&_strong]:font-black [&_strong]:text-white
+              /* 📐 FORZATURA LARGHEZZA: Disintegriamo i margini laterali */
+              [&_p]:!w-full [&_p]:!max-w-none [&_p]:!mx-0 [&_p]:!px-0
+              [&_div]:!w-full [&_div]:!max-w-none [&_div]:!mx-0 [&_div]:!px-0
+              [&_table]:!w-full [&_table]:!max-w-none [&_table]:!mx-0
               
-              /* Liste (Manteniamo il padding solo qui per i pallini) */
-              [&_ul]:list-disc [&_ul]:!w-[auto] [&_ul]:pl-6 [&_ul]:text-gray-300 [&_ul]:mb-8 [&_ul]:space-y-3 [&_ul]:marker:text-[#AE8854]
+              /* Spaziature verticali per la leggibilità */
+              [&_p]:leading-relaxed [&_p]:mb-6 [&_p]:font-medium
+              [&_h2]:text-3xl [&_h2]:font-black [&_h2]:mt-14 [&_h2]:mb-6 [&_h2]:tracking-tighter
+              [&_h3]:text-2xl [&_h3]:font-black [&_h3]:mt-10 [&_h3]:mb-4
+              
+              /* Liste */
+              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-8 [&_ul]:space-y-3 [&_ul]:marker:text-[#AE8854]
               [&_li]:leading-relaxed
               
               /* Link e Media */
-              [&_a]:text-[#E2C293] [&_a]:font-bold [&_a]:underline [&_a]:decoration-[#AE8854] hover:[&_a]:text-white transition-colors
+              [&_a]:font-bold [&_a]:underline [&_a]:decoration-[#AE8854] hover:[&_a]:!text-white transition-colors
               [&_img]:!max-w-full [&_img]:!h-auto [&_img]:mx-auto [&_img]:rounded-xl
               [&_hr]:my-14 [&_hr]:border-t-4 [&_hr]:border-dashed [&_hr]:border-[#374151]
             "
