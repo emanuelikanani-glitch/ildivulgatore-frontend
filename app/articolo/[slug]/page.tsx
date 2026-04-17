@@ -37,7 +37,7 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
     <main className="min-h-screen bg-[#111827] text-white selection:bg-[#AE8854] font-sans pb-24">
       
       {/* Navbar Stile Dottorino */}
-      <nav className="max-w-4xl mx-auto px-6 pt-6 pb-4 flex justify-between items-center relative z-20">
+      <nav className="max-w-7xl mx-auto px-6 pt-6 pb-4 flex justify-between items-center relative z-20">
         <Link 
           href="/" 
           className="p-3 bg-[#1f2937] border-2 border-[#AE8854]/50 text-[#AE8854] rounded-xl hover:bg-[#AE8854] hover:text-[#111827] transition-all shadow-sm flex items-center gap-2 font-black text-xs uppercase tracking-widest"
@@ -51,7 +51,7 @@ export default async function ArticoloPage({ params }: { params: Promise<{ slug:
       </nav>
 
       {/* Corpo dell'Articolo */}
-      <article className="max-w-4xl mx-auto mt-8 bg-[#1f2937] rounded-[3rem] shadow-[0_20px_40px_rgba(0,0,0,0.6)] border-[6px] border-[#AE8854]/30 overflow-hidden relative">
+      <article className="max-w-7xl mx-auto px-4 sm:px-0 mt-8 bg-[#1f2937] rounded-[3rem] shadow-[0_20px_40px_rgba(0,0,0,0.6)] border-[6px] border-[#AE8854]/30 overflow-hidden relative">
         <div className="p-8 md:p-14">
           
           <header className="mb-12 border-b-4 border-[#374151] pb-10">
