@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografica: Prurito Cronico Evidence-Based</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Palette vibrante: Sky Blue (#0ea5e9), Orange (#f97316), Teal (#14b8a6), Indigo (#6366f1) */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #f0fdf4; /* Sfondo chiarissimo verde acqua per contrasto */
+            color: #0f172a; 
+        }
+        
+        /* Regole obbligatorie per i contenitori dei grafici */
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 700px; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 350px; 
+            max-height: 400px; 
+        }
+        @media (min-width: 768px) { 
+            .chart-container.tall { height: 450px; max-height: 500px; }
+        }
+
+        /* Stili per diagrammi CSS (No SVG/Mermaid) */
+        .flow-box {
+            background: white;
+            border: 2px solid #0ea5e9;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+        .flow-arrow-down {
+            text-align: center;
+            font-size: 2rem;
+            color: #94a3b8;
+            line-height: 1;
+            margin: -0.5rem 0;
+            z-index: 1;
+        }
+        
+        /* Stile Tabelle EBM */
+        .ebm-table th { background-color: #0f172a; color: white; }
+        .ebm-table tr:nth-child(even) { background-color: #f8fafc; }
+        .ebm-table tr:hover { background-color: #e0f2fe; }
+
+        /* Badge Evidence */
+        .cert-alta { background-color: #10b981; color: white; padding: 2px 8px; border-radius: 99px; font-size: 0.75rem; font-weight: bold; }
+        .cert-mod { background-color: #f59e0b; color: white; padding: 2px 8px; border-radius: 99px; font-size: 0.75rem; font-weight: bold; }
+        .cert-bassa { background-color: #ef4444; color: white; padding: 2px 8px; border-radius: 99px; font-size: 0.75rem; font-weight: bold; }
+    </style>
+</head>
+<body class="antialiased pb-20">
+
+    <!-- HERO SECTION -->
+    <header class="bg-gradient-to-r from-[#0f172a] via-[#1e3a8a] to-[#0ea5e9] text-white py-16 px-6 lg:px-20 shadow-xl border-b-8 border-[#f97316]">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-2/3">
+                <div class="inline-block bg-[#f97316] text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wider">
+                    EBM Visual Report
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight tracking-tight">
+                    L'Anatomia del <span class="text-[#38bdf8]">Prurito Cronico</span>
+                </h1>
+                <p class="text-xl md:text-2xl font-light text-slate-200 mb-6">
+                    Oltre il sintomo: decodifica eziologica e terapie target validate (Durata &gt; 6 settimane)
+                </p>
+            </div>
+            <div class="md:w-1/3 flex flex-col gap-4 mt-8 md:mt-0">
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-xl text-center">
+                    <div class="text-4xl font-black text-[#f97316]">15-20%</div>
+                    <div class="text-sm font-semibold uppercase tracking-wider text-slate-300">Prevalenza Lifetime</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 p-4 rounded-xl text-center">
+                    <div class="text-4xl font-black text-[#14b8a6]">&gt; 6</div>
+                    <div class="text-sm font-semibold uppercase tracking-wider text-slate-300">Settimane per la Cronicità</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 space-y-16">
+
+        <!-- SECTION 1: EZIOLOGIA (Doughnut Chart + Immagine) -->
+        <section class="bg-white rounded-3xl shadow-lg p-8 lg:p-12 border-l-8 border-[#0ea5e9]">
+            <div class="flex flex-col lg:flex-row items-center gap-10">
+                <div class="lg:w-1/2">
+                    <h2 class="text-3xl font-extrabold text-[#0f172a] mb-6">La Mappa Eziologica: Non Solo Pelle</h2>
+                    <p class="text-slate-600 mb-6 text-lg">
+                        Il prurito cronico è un sintomo trasversale. L'approccio clinico richiede l'abbandono dell'equazione "prurito = allergia". L'eziologia sistemica e neuropatica rappresenta una quota clinica critica e spesso sottodiagnosticata.
+                    </p>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <div class="flex items-center gap-4 text-slate-700">
+                            <span class="text-3xl">&#x1F52C;</span>
+                            <p class="text-sm"><strong>Clinica Pearl:</strong> Un prurito senza lesioni cutanee primarie impone uno screening per insufficienza renale, colestasi e linfoma di Hodgkin.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:w-1/2 w-full">
+                    <div class="chart-container">
+                        <canvas id="etiologyDoughnut"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: PATHOPHYSIOLOGY (CSS Flowchart + Immagine Esplicativa) -->
+        <section class="bg-slate-900 rounded-3xl shadow-xl p-8 lg:p-12 text-white overflow-hidden relative">
+            <div class="absolute top-0 right-0 opacity-10 text-[20rem] leading-none select-none pointer-events-none">&#x26A1;</div>
+            <h2 class="text-3xl font-extrabold text-white mb-10 text-center">Il Cortocircuito Neurale: Vie del Prurito</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative z-10">
+                <!-- CSS Flowchart -->
+                <div class="flex flex-col items-center">
+                    <div class="bg-[#14b8a6] text-slate-900 px-6 py-4 rounded-xl font-bold text-lg shadow-[0_0_20px_rgba(20,184,166,0.4)] w-full max-w-sm text-center">
+                        1. Cute / Cheratinociti
+                        <div class="text-xs font-normal mt-1 text-slate-800">Rilascio di IL-31, TSLP, Proteasi</div>
+                    </div>
+                    <div class="flow-arrow-down text-[#14b8a6]">&#x2193;</div>
+                    
+                    <div class="bg-[#0ea5e9] text-white px-6 py-4 rounded-xl font-bold text-lg shadow-[0_0_20px_rgba(14,165,233,0.4)] w-full max-w-sm text-center">
+                        2. Pruricettori (Fibre C)
+                        <div class="text-xs font-normal mt-1 text-slate-100">Attivazione recettori TRPV1, TRPA1</div>
+                    </div>
+                    <div class="flow-arrow-down text-[#0ea5e9]">&#x2193;</div>
+
+                    <div class="bg-[#8b5cf6] text-white px-6 py-4 rounded-xl font-bold text-lg shadow-[0_0_20px_rgba(139,92,246,0.4)] w-full max-w-sm text-center">
+                        3. Ganglio Radice Dorsale (DRG)
+                        <div class="text-xs font-normal mt-1 text-slate-200">Trasmissione Spinale</div>
+                    </div>
+                    <div class="flow-arrow-down text-[#8b5cf6]">&#x2193;</div>
+
+                    <div class="bg-[#f97316] text-white px-6 py-4 rounded-xl font-bold text-lg shadow-[0_0_20px_rgba(249,115,22,0.4)] w-full max-w-sm text-center">
+                        4. Corteccia Cerebrale
+                        <div class="text-xs font-normal mt-1 text-slate-100">Percezione e riflesso motorio (Grattamento)</div>
+                    </div>
+                </div>
+
+                <!-- Immagine Esplicativa -->
+                <div class="flex flex-col justify-center items-center h-full">
+                    <div class="w-full aspect-video bg-slate-800 rounded-xl border border-slate-700 flex items-center justify-center p-4 text-center overflow-hidden shadow-2xl relative group">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-slate-800 to-slate-700 opacity-50"></div>
+                        <span class="relative z-10 text-slate-300 font-semibold text-lg italic">
+                            
+                        </span>
+                    </div>
+                    <div class="mt-6 bg-slate-800 p-5 rounded-lg border-l-4 border-[#f97316]">
+                        <h4 class="text-[#f97316] font-bold mb-2 uppercase text-sm tracking-wider">Il Paradosso dell'Antistaminico</h4>
+                        <p class="text-sm text-slate-300">
+                            La maggior parte del prurito cronico (es. renale, epatico, senile, atopico grave) viaggia su fibre <strong class="text-white">NON istaminergiche</strong>. Questo spiega il fallimento clinico e il basso livello di evidenza degli anti-H1 in questi scenari.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: ALGORITMO DIAGNOSTICO (Tabella) -->
+        <section class="bg-white rounded-3xl shadow-lg p-8 lg:p-12 border-t-8 border-[#14b8a6]">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-[#0f172a] mb-4">L'Algoritmo di Smascheramento</h2>
+                <p class="text-slate-600 max-w-3xl mx-auto">
+                    Pannello laboratoristico e strumentale raccomandato dalle linee guida (EADV) per il work-up del prurito cronico su cute indenne.
+                </p>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl shadow-sm border border-slate-200">
+                <table class="w-full text-left border-collapse ebm-table">
+                    <thead>
+                        <tr>
+                            <th class="p-4 text-sm font-bold uppercase tracking-wider">Sospetto Eziologico</th>
+                            <th class="p-4 text-sm font-bold uppercase tracking-wider">Marcatori di Primo Livello</th>
+                            <th class="p-4 text-sm font-bold uppercase tracking-wider">Diagnosi Target</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-700">
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-semibold flex items-center gap-2"><span class="text-[#ea580c] text-xl">&#x2695;&#xFE0F;</span> Malattia Renale</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">Creatinina, eGFR, Azotemia</td>
+                            <td class="p-4 border-b border-slate-200 text-sm italic">Prurito Uremico (CKD-aP)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-semibold flex items-center gap-2"><span class="text-[#0ea5e9] text-xl">&#x1F9A0;</span> Malattia Epatica</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">AST, ALT, ALP, GGT, Bilirubina, Acidi Biliari</td>
+                            <td class="p-4 border-b border-slate-200 text-sm italic">Colangite Biliare, Prurito Colestatico</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-semibold flex items-center gap-2"><span class="text-[#8b5cf6] text-xl">&#x1F9EC;</span> Malattia Endocrina</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">TSH, FT4, Glicemia a digiuno, HbA1c</td>
+                            <td class="p-4 border-b border-slate-200 text-sm italic">Ipertiroidismo, Diabete (neuropatia)</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-semibold flex items-center gap-2"><span class="text-[#14b8a6] text-xl">&#x1FA78;</span> Emopatie / Neoplasie</td>
+                            <td class="p-4 border-b border-slate-200 text-sm">Emocromo con formula, LDH, Ferritina, RX Torace</td>
+                            <td class="p-4 border-b border-slate-200 text-sm italic">Policitemia Vera, Linfoma di Hodgkin</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Immagine Esplicativa -->
+            <div class="mt-8 text-center">
+                 <span class="inline-block relative z-10 text-slate-500 font-semibold text-sm italic border border-dashed border-slate-300 p-4 rounded-lg bg-slate-50">
+                    
+                </span>
+            </div>
+        </section>
+
+        <!-- SECTION 4: TERAPIE NON FARMACOLOGICHE (Radar Chart) -->
+        <section class="bg-gradient-to-br from-slate-100 to-slate-200 rounded-3xl shadow-lg p-8 lg:p-12">
+            <h2 class="text-3xl font-extrabold text-[#0f172a] mb-8 text-center">Fondamenta: Trattamenti Topici e Fisici</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="chart-container">
+                    <canvas id="nonPharmaRadar"></canvas>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-[#14b8a6]">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-lg">Emollienti &amp; Reidratanti</h4>
+                            <span class="cert-alta">Evidenza: ALTA</span>
+                        </div>
+                        <p class="text-sm text-slate-600">Base universale. Il ripristino della barriera epidermica riduce le terminazioni nervose scoperte e l'infiammazione subclinica. Contengono spesso Urea (5-10%) o Glicerolo.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-[#0ea5e9]">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-lg">Agenti Rinfrescanti (Mentolo 1-3%)</h4>
+                            <span class="cert-mod">Evidenza: MODERATA</span>
+                        </div>
+                        <p class="text-sm text-slate-600">Attivano i recettori TRPM8 (recettori del freddo), inibendo in modo aspecifico le fibre afferenti del prurito. Effetto rapido ma temporaneo.</p>
+                    </div>
+                    <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-[#8b5cf6]">
+                        <div class="flex justify-between items-start mb-2">
+                            <h4 class="font-bold text-lg">Fototerapia (UVB a banda stretta)</h4>
+                            <span class="cert-alta">Evidenza: ALTA</span>
+                        </div>
+                        <p class="text-sm text-slate-600">Alta efficacia nel prurito renale (uremico) e dermatologico (psoriasi/eczema). Deplezione delle cellule di Langerhans e modulazione immunitaria cutanea.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: FARMACOLOGIA EBM (Scatter & Line Chart & Table) -->
+        <section class="bg-white rounded-3xl shadow-lg p-8 lg:p-12 border-t-8 border-[#f97316]">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-extrabold text-[#0f172a] mb-4">L'Artiglieria Pesante: Terapie Sistemiche</h2>
+                <p class="text-slate-600 max-w-3xl mx-auto text-lg">
+                    Il panorama terapeutico è rivoluzionato dai farmaci biologici. Abbandoniamo i vecchi paradigmi empirici per approcci mirati al bersaglio molecolare.
+                </p>
+            </div>
+
+            <!-- Double Chart Grid -->
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-10 mb-12">
+                <!-- Line Chart: Time course of relief -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#0f172a]">Velocità di Risposta: Biologici vs Placebo</h3>
+                    <p class="text-xs text-center text-slate-500 mb-4">(Riduzione punteggio WI-NRS in Pazienti con Prurigo Nodularis - Dati generici EBM)</p>
+                    <div class="chart-container">
+                        <canvas id="efficacyTimeLine"></canvas>
+                    </div>
+                </div>
+
+                <!-- Scatter Chart: Risk/Benefit -->
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                    <h3 class="text-xl font-bold text-center mb-4 text-[#0f172a]">Matrice Rischio / Beneficio</h3>
+                    <p class="text-xs text-center text-slate-500 mb-4">(Asse Y: Efficacia stimata NRS; Asse X: Rischio Eventi Avversi Sistemici)</p>
+                    <div class="chart-container">
+                        <canvas id="riskBenefitScatter"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Extensive EBM Table -->
+            <div class="overflow-hidden rounded-xl shadow-md border border-slate-200 mt-8">
+                <table class="w-full text-left border-collapse ebm-table">
+                    <thead>
+                        <tr>
+                            <th class="p-4 text-sm font-bold uppercase tracking-wider w-1/4">Classe / Farmaco</th>
+                            <th class="p-4 text-sm font-bold uppercase tracking-wider w-1/4">Meccanismo (Target)</th>
+                            <th class="p-4 text-sm font-bold uppercase tracking-wider w-1/4">Indicazione EBM Primaria</th>
+                            <th class="p-4 text-sm font-bold uppercase tracking-wider w-1/4 text-center">Grado Evidenza</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-slate-700 text-sm">
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-bold text-[#0ea5e9]">Antistaminici H1 (II Gen)</td>
+                            <td class="p-4 border-b border-slate-200">Blocco recettore Istamina H1</td>
+                            <td class="p-4 border-b border-slate-200">Orticaria, Mastocitosi. <br><span class="text-red-500 font-semibold italic">Inutili nel prurito renale/epatico.</span></td>
+                            <td class="p-4 border-b border-slate-200 text-center"><span class="cert-bassa">BASSA*</span><br><span class="text-[10px] text-slate-400">*per prurito non-orticarioide</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-bold text-[#14b8a6]">Gabapentinoidi<br>(Gabapentin/Pregabalin)</td>
+                            <td class="p-4 border-b border-slate-200">Modulazione canali Calcio (SNC)</td>
+                            <td class="p-4 border-b border-slate-200">Prurito Neuropatico (Notalgia, Brachioradiale), Prurito Uremico (off-label).</td>
+                            <td class="p-4 border-b border-slate-200 text-center"><span class="cert-mod">MODERATA</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-bold text-[#8b5cf6]">Anticorpi Monoclonali<br>(Dupilumab, Nemolizumab)</td>
+                            <td class="p-4 border-b border-slate-200">Blocco recettore IL-4/IL-13 (Dupi)<br>Blocco recettore IL-31 (Nemo)</td>
+                            <td class="p-4 border-b border-slate-200">Dermatite Atopica grave, Prurigo Nodularis.</td>
+                            <td class="p-4 border-b border-slate-200 text-center"><span class="cert-alta">ALTA</span></td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 border-b border-slate-200 font-bold text-[#f97316]">Agonisti K-Oppioidi<br>(Difelikefalin)</td>
+                            <td class="p-4 border-b border-slate-200">Attivazione selettiva periferica recettori k-oppioidi</td>
+                            <td class="p-4 border-b border-slate-200">Prurito associato a Malattia Renale Cronica (in Emodialisi).</td>
+                            <td class="p-4 border-b border-slate-200 text-center"><span class="cert-alta">ALTA</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-6 bg-red-50 border-l-4 border-red-500 p-4 rounded text-sm text-red-900">
+                <strong>&#x26A0;&#xFE0F; Clinical Caution:</strong> L'uso sistemico di Corticosteroidi a lungo termine è fortemente <em>sconsigliato</em> (Evidenza di Danno) per il trattamento sintomatico del prurito cronico a causa del profilo di sicurezza inaccettabile (osteoporosi, diabete, ipertensione, rebound).
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 text-center py-8 mt-16 text-sm">
+        <p>Report visivo generato per uso educativo e di sintesi clinica. Le decisioni terapeutiche devono basarsi sulla valutazione medica individuale e sulle schede tecniche ufficiali.</p>
+        <p class="mt-2 text-slate-500">Fonti principali: Linee Guida EADV sul Prurito Cronico, Review Sistematiche Cochrane, RCT (NEJM, Lancet).</p>
+    </footer>
+
+    <!-- Script per Chart.js -->
+    <script>
+        // Funzione per mandare a capo i testi lunghi nelle label (Regola stringente: max 16 caratteri)
+        const wrapLabel = function(l) {
+            if (l.length <= 16) return l;
+            let words = l.split(' ');
+            let lines = [];
+            let currentLine = '';
+            for (let i = 0; i < words.length; i++) {
+                if ((currentLine + words[i]).length > 16) {
+                    if (currentLine) lines.push(currentLine.trim());
+                    currentLine = words[i] + ' ';
+                } else {
+                    currentLine += words[i] + ' ';
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        };
+
+        // Configurazione Tooltip universale per gestire gli array (Regola stringente)
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // Palette Colori
+        const colors = {
+            sky: '#0ea5e9',
+            orange: '#f97316',
+            teal: '#14b8a6',
+            indigo: '#6366f1',
+            purple: '#8b5cf6',
+            slate: '#64748b'
+        };
+
+        // 1. DOUGHNUT CHART - Eziologia
+        const ctxEtio = document.getElementById('etiologyDoughnut').getContext('2d');
+        const rawLabelsEtio = ['Dermatologica (es. Atopia, Psoriasi)', 'Sistemica (Renale, Epatica)', 'Neuropatica / Notalgia', 'Psicogena / Idiopatica'];
+        
+        new Chart(ctxEtio, {
+            type: 'doughnut',
+            data: {
+                labels: rawLabelsEtio.map(wrapLabel),
+                datasets: [{
+                    data: [45, 25, 15, 15],
+                    backgroundColor: [colors.sky, colors.orange, colors.teal, colors.slate],
+                    borderWidth: 3,
+                    borderColor: '#ffffff',
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: { position: 'right', labels: { font: { family: 'Poppins' } } },
+                    tooltip: commonTooltipConfig
+                }
+            }
+        });
+
+        // 2. RADAR CHART - Terapie Non Farmacologiche
+        const ctxRadar = document.getElementById('nonPharmaRadar').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: ['Ripristino Barriera', 'Sollievo Istantaneo', 'Qualità del Sonno', 'Riduzione Infiammazione', 'Sicurezza a Lungo Termine'],
+                datasets: [
+                    {
+                        label: 'Emollienti',
+                        data: [5, 2, 3, 2, 5],
+                        backgroundColor: 'rgba(20, 184, 166, 0.2)',
+                        borderColor: colors.teal,
+                        pointBackgroundColor: colors.teal,
+                    },
+                    {
+                        label: 'Mentolo/Rinfrescanti',
+                        data: [1, 5, 2, 1, 4],
+                        backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                        borderColor: colors.sky,
+                        pointBackgroundColor: colors.sky,
+                    },
+                    {
+                        label: 'Fototerapia (UVB)',
+                        data: [1, 2, 4, 5, 3],
+                        backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                        borderColor: colors.purple,
+                        pointBackgroundColor: colors.purple,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(0,0,0,0.1)' },
+                        grid: { color: 'rgba(0,0,0,0.1)' },
+                        pointLabels: { font: { family: 'Poppins', size: 11 }, color: '#475569' },
+                        ticks: { display: false, min: 0, max: 5 }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: 'Poppins' } } },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) { return tooltipItems[0].label; } // Semplice per Radar
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. LINE CHART - Time course of relief (NRS scale reduction)
+        const ctxLine = document.getElementById('efficacyTimeLine').getContext('2d');
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: ['Settimana 0', 'Sett. 4', 'Sett. 8', 'Sett. 12', 'Sett. 16'],
+                datasets: [
+                    {
+                        label: 'Biologico (es. Anti-IL31/IL4)',
+                        data: [0, -2.5, -4.0, -4.8, -5.2],
+                        borderColor: colors.orange,
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        borderWidth: 3,
+                        pointRadius: 5,
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Placebo',
+                        data: [0, -0.5, -0.8, -1.0, -1.1],
+                        borderColor: colors.slate,
+                        borderDash: [5, 5],
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        fill: false,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        title: { display: true, text: 'Variazione NRS (Punti)' },
+                        reverse: false, // I valori sono negativi (riduzione)
+                        max: 0,
+                        min: -8
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { family: 'Poppins' } } },
+                    tooltip: {
+                        callbacks: { title: function(t) { return t[0].label; } }
+                    }
+                }
+            }
+        });
+
+        // 4. SCATTER/BUBBLE CHART - Risk / Benefit (Efficacy vs AE)
+        const ctxScatter = document.getElementById('riskBenefitScatter').getContext('2d');
+        
+        // Data format: {x: Risk (0-10), y: Efficacy (0-10), r: Radius (Certainty of Evidence)}
+        new Chart(ctxScatter, {
+            type: 'bubble',
+            data: {
+                datasets: [
+                    {
+                        label: 'Anti-H1 (Prurito NON Orticarioide)',
+                        data: [{ x: 3, y: 1, r: 8 }], // Bassa efficacia, rischio sedazione
+                        backgroundColor: 'rgba(100, 116, 139, 0.7)', // Slate
+                        borderColor: colors.slate
+                    },
+                    {
+                        label: 'Gabapentinoidi',
+                        data: [{ x: 6, y: 5, r: 15 }], // Efficacia discreta, rischio neurologico mod/alto
+                        backgroundColor: 'rgba(20, 184, 166, 0.7)', // Teal
+                        borderColor: colors.teal
+                    },
+                    {
+                        label: 'Cortisonici Sistemici',
+                        data: [{ x: 9, y: 7, r: 15 }], // Alta efficacia breve termine, Altissimo rischio lungo termine
+                        backgroundColor: 'rgba(239, 68, 68, 0.7)', // Red
+                        borderColor: '#b91c1c'
+                    },
+                    {
+                        label: 'Nuovi Biologici (IL-Target)',
+                        data: [{ x: 2, y: 8, r: 20 }], // Alta efficacia, basso rischio sistemico grave
+                        backgroundColor: 'rgba(249, 115, 22, 0.7)', // Orange
+                        borderColor: colors.orange
+                    },
+                     {
+                        label: 'Difelikefalin (solo uremici)',
+                        data: [{ x: 4, y: 7, r: 20 }],
+                        backgroundColor: 'rgba(14, 165, 233, 0.7)', // Sky
+                        borderColor: colors.sky
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Rischio Eventi Avversi (Scala Relativa)' },
+                        min: 0, max: 10,
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    },
+                    y: {
+                        title: { display: true, text: 'Efficacia Sintomatica (Scala Relativa)' },
+                        min: 0, max: 10,
+                        grid: { color: 'rgba(0,0,0,0.05)' }
+                    }
+                },
+                plugins: {
+                    legend: { 
+                        position: 'bottom', 
+                        labels: { 
+                            font: { family: 'Poppins', size: 10 },
+                            boxWidth: 12
+                        } 
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.dataset.label} (Efficacia: ${context.raw.y}, Rischio: ${context.raw.x})`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
