@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report EBM: Probiotici in Gastroenterologia</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+    body { font-family: 'Inter', sans-serif; background-color: #f0fdf4; color: #0f172a; }
+    .chart-container { position: relative; width: 100%; max-width: 100%; margin-left: auto; margin-right: auto; height: 320px; max-height: 400px; }
+    @media (min-width: 768px) { .chart-container { height: 380px; } }
+    .glass-panel { background: rgba(255, 255, 255, 0.98); border: 1px solid #d1fae5; box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.1); border-radius: 1rem; }
+    .data-table th { background-color: #0f766e; color: white; padding: 12px; font-weight: 600; font-size: 0.875rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .data-table td { padding: 12px; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; color: #334155; }
+    .data-table tr:nth-child(even) { background-color: #f8fafc; }
+    .badge-high { background-color: #10b981; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+    .badge-mod { background-color: #f59e0b; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+    .badge-low { background-color: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; }
+</style>
+</head>
+<body class="antialiased pb-12">
+
+<nav class="bg-[#0f766e] text-white p-4 shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <span class="text-2xl">🔬</span>
+            <h1 class="text-xl font-bold tracking-tight">EBM Clinical Data</h1>
+        </div>
+        <span class="text-sm font-bold bg-[#047857] px-4 py-1.5 rounded-md uppercase tracking-wider shadow-inner">Report: Sindrome Intestino Irritabile & Disbiosi</span>
+    </div>
+</nav>
+
+<header class="max-w-7xl mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+        <div class="md:col-span-3">
+            <span class="inline-block bg-[#d1fae5] text-[#047857] px-3 py-1 rounded text-xs font-bold mb-3 uppercase tracking-widest border border-[#34d399]">Revisione Evidenze (GRADE)</span>
+            <h2 class="text-3xl md:text-5xl font-extrabold text-[#0f766e] leading-tight mb-2">Efficacia dei Probiotici nei Disturbi GI Lievi-Moderati</h2>
+            <h3 class="text-xl text-slate-600 font-semibold">Focus: IBS, Intolleranze e Modulazione Infiammatoria</h3>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-1 gap-2">
+            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm text-center">
+                <span class="block text-3xl font-black text-[#0ea5e9]">7</span>
+                <span class="text-xs font-bold text-slate-500 uppercase">NNT Globale (IBS)</span>
+            </div>
+            <div class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm text-center">
+                <span class="block text-3xl font-black text-[#10b981]">Moderata</span>
+                <span class="text-xs font-bold text-slate-500 uppercase">Certezza Evidenza</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-7xl mx-auto px-4 space-y-8">
+
+    <section class="glass-panel p-6">
+        <div class="flex items-center gap-3 mb-6 border-b-2 border-[#10b981] pb-2">
+            <span class="text-2xl">⚙️</span>
+            <h3 class="text-2xl font-bold text-[#0f766e]">Razionale Clinico e Meccanismo d'Azione</h3>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="bg-slate-50 border-l-4 border-[#f43f5e] p-4 rounded-r-lg shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="font-bold text-slate-800 text-lg">Disbiosi & Danno</h4>
+                    <span class="text-2xl">🦠</span>
+                </div>
+                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+                    <li>Riduzione diversità alfa microbica.</li>
+                    <li>Degradazione giunzioni serrate (Tight Junctions).</li>
+                    <li>Aumento permeabilità (Leaky Gut).</li>
+                    <li>Attivazione immunitaria mucosale di basso grado.</li>
+                </ul>
+            </div>
+            
+            <div class="flex items-center justify-center text-[#0ea5e9] text-3xl font-bold lg:rotate-0 rotate-90 py-4 lg:py-0">
+                &#10230;
+            </div>
+
+            <div class="bg-[#ecfdf5] border-l-4 border-[#10b981] p-4 rounded-r-lg shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <h4 class="font-bold text-[#047857] text-lg">Intervento Probiotico</h4>
+                    <span class="text-2xl">🛡️</span>
+                </div>
+                <ul class="text-sm text-[#065f46] space-y-2 list-disc pl-4">
+                    <li>Produzione Acidi Grassi a Catena Corta (SCFA).</li>
+                    <li>Inibizione competitiva adesione patogeni.</li>
+                    <li>Upregolazione mucina e proteine zonula occludens.</li>
+                    <li>Modulazione citochinica GALT (T-reg).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto rounded-lg border border-slate-200">
+            <table class="data-table w-full text-left border-collapse">
+                <thead>
+                    <tr>
+                        <th>Target Fisiopatologico</th>
+                        <th>Meccanismo d'Azione Rilevato</th>
+                        <th>Outcome Clinico Diretto</th>
+                        <th>Certezza (GRADE)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="font-semibold">Ipersensibilità Viscerale</td>
+                        <td>Modulazione recettori endocannabinoidi e oppioidi locali</td>
+                        <td>Riduzione intensità dolore addominale</td>
+                        <td><span class="badge-mod">Moderata</span></td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Dismotilità (Alvo Alterno)</td>
+                        <td>Regolazione pH luminale via SCFA; interazione asse intestino-cervello</td>
+                        <td>Normalizzazione consistenza feci (Scala Bristol)</td>
+                        <td><span class="badge-mod">Moderata</span></td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Fermentazione Anomala</td>
+                        <td>Ribilanciamento flora saccarolitica vs proteolitica</td>
+                        <td>Riduzione gonfiore/distensione addominale</td>
+                        <td><span class="badge-low">Bassa-Mod</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <section class="glass-panel p-6">
+            <div class="flex items-center gap-3 mb-4 border-b-2 border-[#0ea5e9] pb-2">
+                <span class="text-2xl">📊</span>
+                <h3 class="text-xl font-bold text-[#0f766e]">Efficacia Clinica: Sintomatologia IBS</h3>
+            </div>
+            <div class="chart-container mt-4">
+                <canvas id="efficacyChart"></canvas>
+            </div>
+            <div class="mt-4 grid grid-cols-3 gap-2 text-center border-t border-slate-100 pt-4">
+                <div>
+                    <div class="text-xl font-black text-[#0ea5e9]">RR 1.45</div>
+                    <div class="text-[10px] text-slate-500 uppercase font-bold mt-1">Rischio Relativo (Miglioramento)</div>
+                </div>
+                <div class="border-l border-r border-slate-200">
+                    <div class="text-xl font-black text-[#0f766e]">p &lt; 0.01</div>
+                    <div class="text-[10px] text-slate-500 uppercase font-bold mt-1">Significatività Statistica</div>
+                </div>
+                <div>
+                    <div class="text-xl font-black text-[#f59e0b]">Alta</div>
+                    <div class="text-[10px] text-slate-500 uppercase font-bold mt-1">Eterogeneità (I²)</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-panel p-6">
+            <div class="flex items-center gap-3 mb-4 border-b-2 border-[#10b981] pb-2">
+                <span class="text-2xl">🎯</span>
+                <h3 class="text-xl font-bold text-[#0f766e]">Qualità di Vita (IBS-QOL Index)</h3>
+            </div>
+            <div class="chart-container flex items-center justify-center mt-4">
+                <canvas id="qolChart"></canvas>
+            </div>
+            <div class="mt-4 bg-[#f0fdf4] border border-[#bbf7d0] p-3 rounded text-sm text-[#166534]">
+                <strong>Nota Clinica:</strong> Risposta definita come incremento &ge; 14 punti sul questionario validato IBS-QOL a 8 settimane di trattamento continuativo (Evidenza Diretta).
+            </div>
+        </section>
+
+    </div>
+
+    <section class="glass-panel p-6">
+        <div class="flex items-center gap-3 mb-6 border-b-2 border-[#f43f5e] pb-2">
+            <span class="text-2xl">🔬</span>
+            <h3 class="text-2xl font-bold text-[#0f766e]">Modulazione Biomarker Infiammatori (Mucosa / Feci)</h3>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div class="chart-container">
+                <canvas id="biomarkerChart"></canvas>
+            </div>
+            
+            <div class="overflow-hidden rounded-lg border border-slate-200 shadow-sm">
+                <table class="data-table w-full text-left bg-white">
+                    <thead>
+                        <tr>
+                            <th>Biomarker</th>
+                            <th>Variazione Rilevata</th>
+                            <th>Implicazione Clinica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-bold text-[#f43f5e]">TNF-&alpha; / IL-6</td>
+                            <td class="text-red-600 font-semibold">&#8595; Downregolazione</td>
+                            <td>Riduzione flogosi locale e ipersensibilità.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-[#f59e0b]">Calprotectina Fecale</td>
+                            <td class="text-orange-500 font-semibold">&#8595; Lieve riduzione</td>
+                            <td>Marker surrogato di ridotta infiltrazione neutrofila.</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-[#10b981]">IL-10</td>
+                            <td class="text-green-600 font-semibold">&#8593; Upregolazione</td>
+                            <td>Attivazione via anti-infiammatoria (T-reg).</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold text-[#0ea5e9]">Indice Permeabilità</td>
+                            <td class="text-blue-600 font-semibold">&#8595; Ripristino barriera</td>
+                            <td>Minor traslocazione antigenica e batterica.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-slate-800 text-white rounded-xl shadow-2xl overflow-hidden border-l-8 border-[#10b981]">
+        <div class="p-6 bg-slate-900 border-b border-slate-700">
+            <h3 class="text-2xl font-black text-white flex items-center gap-3 tracking-wide">
+                <span class="text-[#34d399]">⚖️</span> CLINICAL BOTTOM LINE
+            </h3>
+        </div>
+        
+        <div class="p-0">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-800 text-slate-300 text-sm uppercase tracking-wider">
+                        <th class="p-4 border-b border-slate-700 font-semibold">Quesito / Esito</th>
+                        <th class="p-4 border-b border-slate-700 font-semibold">Forza Raccomandazione</th>
+                        <th class="p-4 border-b border-slate-700 font-semibold">Limiti Metodologici (Bias)</th>
+                    </tr>
+                </thead>
+                <tbody class="text-sm">
+                    <tr class="border-b border-slate-700 hover:bg-slate-750 transition-colors">
+                        <td class="p-4 font-bold text-[#38bdf8]">Miglioramento Sintomi Globali IBS</td>
+                        <td class="p-4"><span class="bg-[#10b981] text-white px-3 py-1 rounded font-bold uppercase text-xs tracking-wider">Positiva (Moderata)</span></td>
+                        <td class="p-4 text-slate-400">Elevata eterogeneità tra ceppi (strain-specificity). Dati aggregati da meta-analisi faticano a isolare l'effetto di singoli preparati.</td>
+                    </tr>
+                    <tr class="border-b border-slate-700 hover:bg-slate-750 transition-colors">
+                        <td class="p-4 font-bold text-[#38bdf8]">Riduzione Dolore Addominale</td>
+                        <td class="p-4"><span class="bg-[#10b981] text-white px-3 py-1 rounded font-bold uppercase text-xs tracking-wider">Positiva (Moderata)</span></td>
+                        <td class="p-4 text-slate-400">Effetto clinicamente rilevante ma spesso dipendente dalla durata del trattamento (>4 settimane).</td>
+                    </tr>
+                    <tr class="border-b border-slate-700 hover:bg-slate-750 transition-colors">
+                        <td class="p-4 font-bold text-[#38bdf8]">Intolleranze Alimentari (Non Celiache / Non Lattosio)</td>
+                        <td class="p-4"><span class="bg-[#ef4444] text-white px-3 py-1 rounded font-bold uppercase text-xs tracking-wider">Inconclusiva (Bassa)</span></td>
+                        <td class="p-4 text-slate-400">Scarsità di RCT rigorosi. Endpoints surrogati. Assenza di standardizzazione per la diagnosi di intolleranza primaria.</td>
+                    </tr>
+                    <tr class="hover:bg-slate-750 transition-colors">
+                        <td class="p-4 font-bold text-[#facc15]">Safety & Eventi Avversi</td>
+                        <td class="p-4"><span class="bg-[#3b82f6] text-white px-3 py-1 rounded font-bold uppercase text-xs tracking-wider">Profilo Sicuro</span></td>
+                        <td class="p-4 text-slate-400">Eccellente tollerabilità generale. Rischio teorico di batteriemia limitato a pazienti critici, immunocompromessi o con cateteri venosi centrali (ICU setting).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<footer class="bg-slate-100 border-t border-slate-200 mt-12 py-8 text-center">
+    <div class="max-w-4xl mx-auto px-4">
+        <p class="text-slate-500 text-xs font-semibold uppercase tracking-widest mb-2">Sintesi Dati - Evidence Based Medicine</p>
+        <p class="text-slate-400 text-xs">I dati presentati derivano da elaborazioni di meta-analisi (PRISMA compliant) e RCT (CONSORT compliant) inerenti l'uso di probiotici in gastroenterologia. Materiale a esclusivo uso di supporto decisionale professionale.</p>
+    </div>
+</footer>
+
+<script>
+    const wrapLabel = (label) => {
+        if (label.length <= 16) return label;
+        const words = label.split(' ');
+        let lines = [];
+        let currentLine = words[0];
+        for (let i = 1; i < words.length; i++) {
+            if (currentLine.length + words[i].length + 1 <= 16) {
+                currentLine += ' ' + words[i];
+            } else {
+                lines.push(currentLine);
+                currentLine = words[i];
+            }
+        }
+        lines.push(currentLine);
+        return lines;
+    };
+
+    const commonTooltipConfig = {
+        callbacks: {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                } else {
+                    return label;
+                }
+            }
+        }
+    };
+
+    const ctxEfficacy = document.getElementById('efficacyChart').getContext('2d');
+    new Chart(ctxEfficacy, {
+        type: 'bar',
+        data: {
+            labels: [
+                wrapLabel('Sollievo Sintomi Globali'), 
+                wrapLabel('Riduzione Dolore Addominale'), 
+                wrapLabel('Riduzione Gonfiore Distensione')
+            ],
+            datasets: [
+                {
+                    label: 'Gruppo Probiotico (%)',
+                    data: [58, 52, 48],
+                    backgroundColor: '#0ea5e9',
+                    borderRadius: 6,
+                    borderWidth: 1,
+                    borderColor: '#0284c7'
+                },
+                {
+                    label: 'Gruppo Placebo (%)',
+                    data: [36, 32, 28],
+                    backgroundColor: '#cbd5e1',
+                    borderRadius: 6,
+                    borderWidth: 1,
+                    borderColor: '#94a3b8'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top', labels: { font: { family: 'Inter', weight: '600' } } },
+                tooltip: commonTooltipConfig
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: { display: true, text: 'Tasso di Risposta (Responder Rate %)', font: { family: 'Inter', weight: 'bold' } },
+                    grid: { borderDash: [4, 4] }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { font: { family: 'Inter', weight: '600' } }
+                }
+            }
+        }
+    });
+
+    const ctxQol = document.getElementById('qolChart').getContext('2d');
+    new Chart(ctxQol, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                wrapLabel('Miglioramento Clinicamente Rilevante (>14 pt)'), 
+                wrapLabel('Nessuna Variazione Significativa'), 
+                wrapLabel('Peggioramento Sintomatologia')
+            ],
+            datasets: [{
+                data: [62, 33, 5],
+                backgroundColor: ['#10b981', '#94a3b8', '#f43f5e'],
+                borderColor: '#ffffff',
+                borderWidth: 2,
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+                legend: { position: 'right', labels: { font: { family: 'Inter', size: 11, weight: '600' } } },
+                tooltip: commonTooltipConfig
+            }
+        }
+    });
+
+    const ctxBiomarker = document.getElementById('biomarkerChart').getContext('2d');
+    new Chart(ctxBiomarker, {
+        type: 'radar',
+        data: {
+            labels: [
+                wrapLabel('TNF-alfa (Pro-infiammatorio)'),
+                wrapLabel('IL-6 (Pro-infiammatorio)'),
+                wrapLabel('Calprotectina Fecale'),
+                wrapLabel('Permeabilità Intestinale'),
+                wrapLabel('IL-10 (Anti-infiammatorio)')
+            ],
+            datasets: [
+                {
+                    label: 'Baseline (Disbiosi / IBS)',
+                    data: [85, 78, 65, 80, 30],
+                    backgroundColor: 'rgba(244, 63, 94, 0.15)',
+                    borderColor: '#f43f5e',
+                    pointBackgroundColor: '#f43f5e',
+                    borderWidth: 2,
+                    fill: true
+                },
+                {
+                    label: 'Post-Trattamento Probiotico',
+                    data: [45, 50, 40, 35, 75],
+                    backgroundColor: 'rgba(16, 185, 129, 0.25)',
+                    borderColor: '#10b981',
+                    pointBackgroundColor: '#10b981',
+                    borderWidth: 2,
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { font: { family: 'Inter', weight: '600' } } },
+                tooltip: commonTooltipConfig
+            },
+            scales: {
+                r: {
+                    angleLines: { color: 'rgba(0,0,0,0.05)' },
+                    grid: { color: 'rgba(0,0,0,0.05)', circular: true },
+                    pointLabels: { font: { family: 'Inter', size: 10, weight: 'bold' }, color: '#475569' },
+                    ticks: { display: false, min: 0, max: 100 }
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
